@@ -1,0 +1,91 @@
+/* =====================================================================
+   DARK MODE (optional add-on)
+   To remove dark mode entirely: delete this file and dark.js, and the
+   three lines marked "DARK MODE" in index.html.
+   ===================================================================== */
+
+html.dark {
+  color-scheme: dark;
+  --bg: #0b1210;
+  --alt: #0f1814;
+  --card: #131d19;
+  --ink: #e7efeb;
+  --muted: #a9b7b1;
+  --soft: #8d9b95;
+  --line: #23312b;
+  --line-2: #2f3f38;
+  --em: #34d399;               /* emerald text/links on dark (9:1) */
+  --em-strong: #6ee7b7;
+  --em-bright: #34d399;
+  --em-50: rgba(16, 185, 129, .12);
+  --em-100: rgba(16, 185, 129, .22);
+  --em-200: rgba(52, 211, 153, .38);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .35);
+  --shadow-md: 0 1px 2px rgba(0, 0, 0, .3), 0 14px 34px -16px rgba(0, 0, 0, .6);
+  --shadow-lg: 0 2px 4px rgba(0, 0, 0, .3), 0 26px 50px -20px rgba(0, 0, 0, .7);
+}
+
+/* Smooth switch between themes */
+html.theme-anim, html.theme-anim body, html.theme-anim *:not(.reveal) {
+  transition: background-color .35s ease, border-color .35s ease, color .35s ease !important;
+}
+
+/* Solid emerald surfaces: bright emerald with dark text keeps strong contrast */
+html.dark .btn-primary, html.dark .brand-mark, html.dark .to-top, html.dark .skip,
+html.dark .job-logo:not(.has-img), html.dark .cp-link:hover { background: #34d399; color: #04261c; border-color: #34d399; }
+html.dark .btn-primary:hover, html.dark .to-top:hover { background: #6ee7b7; }
+
+/* Surfaces that were hard-coded white */
+html.dark .topbar { background: rgba(11, 18, 16, .86); }
+html.dark .cp-card, html.dark .cert-feature { background: linear-gradient(160deg, rgba(16, 185, 129, .14), var(--card) 70%); }
+html.dark .marquee-track li, html.dark .cert-tags li, html.dark .cert-feature .cert-icon, html.dark .cp-link { background: var(--card); }
+html.dark .edu li::before { background: var(--bg); }
+html.dark .photo-frame { background: #1a2420; }
+html.dark .blob { opacity: .16; }
+
+/* Contact card keeps its deep-green look; its white button keeps dark-green text */
+html.dark .cta { box-shadow: 0 0 0 1px rgba(52, 211, 153, .18), var(--shadow-lg); }
+html.dark .cta .btn-light { background: #fff; color: #065f46; }
+html.dark .cta .btn-light:hover { background: #ecfdf5; }
+html.dark .cta .copy-btn.is-copied { background: #d1fae5; color: #047857; }
+
+/* Black logos would vanish on dark: show them in white */
+html.dark img[src*="nextjs"], html.dark img[src*="github-icon"], html.dark img[src*="vercel"] { filter: invert(1) hue-rotate(180deg); }
+
+/* ---------- The toggle button ---------- */
+.theme-toggle { display: grid; place-items: center; flex: none; width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid var(--line-2);
+  background: var(--card); color: var(--ink); cursor: pointer; transition: border-color .2s var(--ease), color .2s var(--ease), transform .2s var(--ease); }
+.theme-toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.theme-toggle .i-sun { display: none; }
+html.dark .theme-toggle .i-sun { display: block; }
+html.dark .theme-toggle .i-moon { display: none; }
+.theme-toggle:hover { border-color: var(--em); color: var(--em); }
+.theme-toggle:focus-visible { outline: 3px solid var(--em-bright); outline-offset: 2px; }
+.theme-toggle svg { animation: theme-spin .5s var(--ease); }
+@keyframes theme-spin { from { transform: rotate(-90deg) scale(.6); opacity: 0; } to { transform: none; opacity: 1; } }
+.topbar-actions { display: flex; align-items: center; gap: 10px; }
+@media (prefers-reduced-motion: reduce) { .theme-toggle svg { animation: none; } }
+
+/* Toggle placement in the top bar */
+.topbar .theme-toggle { margin-right: -12px; }
+@media (max-width: 1080px) {
+  .topbar .theme-toggle { margin-left: auto; margin-right: -14px; }
+  .topbar .btn { margin-left: 0; }
+}
+
+/* Dark-blue logos (Java, MySQL) need lifting on the dark background */
+html.dark img[src*="java.svg"], html.dark img[src*="mysql"] { filter: brightness(2.1) saturate(1.3); }
+
+/* No coloured glows or halos on the dark page: neutral elevation only */
+html.dark .blob { display: none; }
+html.dark .btn-primary { box-shadow: 0 6px 16px -8px rgba(0, 0, 0, .6); }
+html.dark .to-top { box-shadow: 0 10px 24px -10px rgba(0, 0, 0, .7); }
+html.dark .cta { box-shadow: var(--shadow-lg); }
+html.dark .spot::before { background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, .035), transparent 60%); }
+@media (hover: hover) and (pointer: fine) {
+  html.dark .tilt.is-tilting { box-shadow: 0 2px 4px rgba(0, 0, 0, .35), 0 30px 60px -24px rgba(0, 0, 0, .75); }
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  html.dark .hero-photo:hover .photo-frame { box-shadow: 0 30px 60px -24px rgba(0, 0, 0, .8), 0 10px 24px -12px rgba(0, 0, 0, .5); }
+  html.dark .hero-photo:hover .ring { filter: saturate(1.2) brightness(1.12); }
+}

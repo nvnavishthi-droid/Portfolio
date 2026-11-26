@@ -1,0 +1,22 @@
+# Only the files the website needs are tracked; everything else stays local.
+/*
+!/.gitignore
+!/index.html
+!/styles.css
+!/script.js
+!/dark.css
+!/dark.js
+!/assets/
+
+/assets/*
+!/assets/Navishthi-NV-Resume.pdf
+!/assets/closefuture-logo.png
+!/assets/eduskills-logo.svg
+!/assets/favicon.svg
+!/assets/portrait.webp
+!/assets/share.jpg
+!/assets/fonts/
+!/assets/icons/
+
+.DS_Store
+/assets/icons/linkedin-icon.svg
