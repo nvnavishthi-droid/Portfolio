@@ -14,7 +14,7 @@
   <meta property="og:description" content="Second-year CSE student at Chennai Institute of Technology. AI/ML and full-stack projects with live demos.">
   <meta name="twitter:card" content="summary">
   <link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=55">
+  <link rel="stylesheet" href="styles.css?v=56">
   <!-- DARK MODE --><link rel="stylesheet" href="dark.css?v=5"><script src="dark.js?v=1"></script>
   <script>(function(){var d=document.documentElement,still=/[?&]still\b/.test(location.search),rm=matchMedia("(prefers-reduced-motion: reduce)").matches;if(!still&&!rm){d.classList.add("hero-reveal");setTimeout(function(){d.classList.remove("hero-reveal")},1800)}var rev=!still&&!rm&&"IntersectionObserver"in window;if(!still&&!rev)d.classList.add("is-entering");if(rev){d.classList.add("js-reveal");setTimeout(function(){if(!d.classList.contains("reveal-ready"))d.classList.add("reveal-safe")},3000);}})();</script>
 </head>
@@ -221,7 +221,7 @@
             <h3 class="pd-h">The Problem</h3>
             <p class="pd-lead">Payroll tasks can become fragmented across employee records, attendance and repeated salary calculations. SmartPay brings these records and calculations into one administrative workflow.</p>
             <h3 class="pd-h">Core Workflow</h3>
-            <ol class="pd-flow" role="list" aria-label="Project workflow"><li><span class="pd-step" aria-hidden="true">01</span><span>Employee records</span></li><li><span class="pd-step" aria-hidden="true">02</span><span>Attendance</span></li><li><span class="pd-step" aria-hidden="true">03</span><span>Salary calculation</span></li><li><span class="pd-step" aria-hidden="true">04</span><span>Payslip</span></li></ol>
+            <div class="pd-flow-box"><ol class="pd-flow" role="list" aria-label="Project workflow"><li><span class="pd-step" aria-hidden="true">01</span><span>Employee records</span></li><li><span class="pd-step" aria-hidden="true">02</span><span>Attendance</span></li><li><span class="pd-step" aria-hidden="true">03</span><span>Salary calculation</span></li><li><span class="pd-step" aria-hidden="true">04</span><span>Payslip</span></li></ol></div>
             <h3 class="pd-h">Engineering Decisions</h3>
             <ul class="bullets pd-list"><li><strong>Separate responsibilities:</strong> controllers, services, repositories and entities keep request handling, payroll logic and database access distinct.</li><li><strong>Validated backend operations:</strong> validate employee and payroll inputs and handle exceptions around data operations before returning API responses.</li></ul>
             <h3 class="pd-h">Key Features</h3>
@@ -240,7 +240,7 @@
             <h3 class="pd-h">The Problem</h3>
             <p class="pd-lead">Cloud cover, incomplete scene coverage and observations from different dates can make lake comparisons difficult to interpret. The platform presents scene context and spectral indicators alongside the results.</p>
             <h3 class="pd-h">Core Workflow</h3>
-            <ol class="pd-flow" role="list" aria-label="Project workflow"><li><span class="pd-step" aria-hidden="true">01</span><span>Choose location</span></li><li><span class="pd-step" aria-hidden="true">02</span><span>Select imagery</span></li><li><span class="pd-step" aria-hidden="true">03</span><span>Analyse indicators</span></li><li><span class="pd-step" aria-hidden="true">04</span><span>Compare results</span></li></ol>
+            <div class="pd-flow-box"><ol class="pd-flow" role="list" aria-label="Project workflow"><li><span class="pd-step" aria-hidden="true">01</span><span>Choose location</span></li><li><span class="pd-step" aria-hidden="true">02</span><span>Select imagery</span></li><li><span class="pd-step" aria-hidden="true">03</span><span>Analyse indicators</span></li><li><span class="pd-step" aria-hidden="true">04</span><span>Compare results</span></li></ol></div>
             <h3 class="pd-h">Engineering Decisions</h3>
             <ul class="bullets pd-list"><li><strong>Comparable imagery:</strong> use Google Earth Engine to filter out images above 20% cloud cover and prioritise observations with at least 90% spatial coverage.</li><li><strong>Meaningful area estimates:</strong> calculate water-area percentage over valid pixels, and use MNDWI and band statistics as complementary spectral indicators.</li></ul>
             <h3 class="pd-h">Key Features</h3>
@@ -263,7 +263,7 @@
             <h3 class="pd-h">My Contribution</h3>
             <p class="pd-lead">Implemented the Member and Admin experiences across the frontend and database. Designed dashboard and modal interactions in Pencil, built responsive components, and connected idea workflows, participation reports and reminder automation.</p>
             <h3 class="pd-h">Core Workflow</h3>
-            <ol class="pd-flow" role="list" aria-label="Project workflow"><li><span class="pd-step" aria-hidden="true">01</span><span>Submit idea</span></li><li><span class="pd-step" aria-hidden="true">02</span><span>Evaluate</span></li><li><span class="pd-step" aria-hidden="true">03</span><span>Assign owner</span></li><li><span class="pd-step" aria-hidden="true">04</span><span>Track outcome</span></li></ol>
+            <div class="pd-flow-box"><ol class="pd-flow" role="list" aria-label="Project workflow"><li><span class="pd-step" aria-hidden="true">01</span><span>Submit idea</span></li><li><span class="pd-step" aria-hidden="true">02</span><span>Evaluate</span></li><li><span class="pd-step" aria-hidden="true">03</span><span>Assign owner</span></li><li><span class="pd-step" aria-hidden="true">04</span><span>Track outcome</span></li></ol></div>
             <h3 class="pd-h">Engineering Decisions</h3>
             <ul class="bullets pd-list"><li><strong>Permissions in the database:</strong> JWT role claims, Row Level Security and validated functions keep Member and Admin operations within their allowed scope.</li><li><strong>Keep work in context:</strong> board/list views and consistent modal interactions connect submission, discussion, evaluation and execution without losing the idea context.</li></ul>
             <h3 class="pd-h">Key Features</h3>
@@ -282,7 +282,7 @@
             <h3 class="pd-h">The Problem</h3>
             <p class="pd-lead">A visitor may ask follow-up questions about company work and then request a meeting in the same conversation. The assistant needs to preserve context, cite reliable sources and handle calendar changes deliberately.</p>
             <h3 class="pd-h">Core Workflow</h3>
-            <ol class="pd-flow" role="list" aria-label="Project workflow"><li><span class="pd-step" aria-hidden="true">01</span><span>Validate input</span></li><li><span class="pd-step" aria-hidden="true">02</span><span>Route request</span></li><li><span class="pd-step" aria-hidden="true">03</span><span>Retrieve / schedule</span></li><li><span class="pd-step" aria-hidden="true">04</span><span>Validate output</span></li></ol>
+            <div class="pd-flow-box"><ol class="pd-flow" role="list" aria-label="Project workflow"><li><span class="pd-step" aria-hidden="true">01</span><span>Validate input</span></li><li><span class="pd-step" aria-hidden="true">02</span><span>Route request</span></li><li><span class="pd-step" aria-hidden="true">03</span><span>Retrieve / schedule</span></li><li><span class="pd-step" aria-hidden="true">04</span><span>Validate output</span></li></ol></div>
             <h3 class="pd-h">Engineering Decisions</h3>
             <ul class="bullets pd-list"><li><strong>Three agent boundaries:</strong> one Python/FastAPI backend separates Orchestrator, Scheduler and Guardrail responsibilities; retrieval remains a pipeline rather than another agent.</li><li><strong>Hybrid evidence:</strong> merge semantic and BM25 rankings with Reciprocal Rank Fusion to combine conceptual matches with exact terminology.</li><li><strong>Checked calendar actions:</strong> recheck availability before writes, require explicit confirmation and reconcile uncertain operations before retrying to avoid duplicate events.</li></ul>
             <h3 class="pd-h">Key Features</h3>
@@ -450,6 +450,6 @@
 
   <a class="to-top" href="#top" aria-label="Back to top"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5m0 0-6 6m6-6 6 6"/></svg></a>
 
-  <script src="script.js?v=30" defer></script>
+  <script src="script.js?v=31" defer></script>
 </body>
 </html>

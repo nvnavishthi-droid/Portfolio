@@ -221,6 +221,7 @@
       content.replaceChildren(tpl.content.cloneNode(true));
       const small = matchMedia("(max-width: 640px)").matches;
       content.querySelectorAll(small ? ".pd-facts" : ".pd-facts div").forEach(boxFx);
+      content.querySelectorAll(".pd-flow-box").forEach(boxFx);
       if (!dlg.open) dlg.showModal();
       dlg.scrollTop = 0; content.scrollTop = 0;
       root.classList.add("pd-open");
