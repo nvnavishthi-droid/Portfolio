@@ -14,7 +14,7 @@
   <meta property="og:description" content="Second-year CSE student at Chennai Institute of Technology. AI/ML and full-stack projects with live demos.">
   <meta name="twitter:card" content="summary">
   <link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=50">
+  <link rel="stylesheet" href="styles.css?v=51">
   <!-- DARK MODE --><link rel="stylesheet" href="dark.css?v=5"><script src="dark.js?v=1"></script>
   <script>(function(){var d=document.documentElement,still=/[?&]still\b/.test(location.search),rm=matchMedia("(prefers-reduced-motion: reduce)").matches;if(!still&&!rm){d.classList.add("hero-reveal");setTimeout(function(){d.classList.remove("hero-reveal")},1800)}var rev=!still&&!rm&&"IntersectionObserver"in window;if(!still&&!rev)d.classList.add("is-entering");if(rev){d.classList.add("js-reveal");setTimeout(function(){if(!d.classList.contains("reveal-ready"))d.classList.add("reveal-safe")},3000);}})();</script>
 </head>
@@ -216,16 +216,18 @@
         <template id="pd-smartpay">
             <p class="pd-kicker">Java Programming course project</p>
             <h2 id="pd-title">SmartPay Payroll System</h2>
-            <p class="pd-lead">A Java and Spring Boot application that brings employee records, attendance and payroll processing into one admin dashboard.</p>
+            <p class="pd-lead">An admin payroll application that turns employee and attendance records into calculated salaries, payslips and reports.</p>
             <dl class="pd-facts"><div><dt>Type</dt><dd>Course project</dd></div><div><dt>Focus</dt><dd>Java backend, full-stack</dd></div><div><dt>Status</dt><dd>Live demo</dd></div></dl>
             <h3 class="pd-h">The Problem</h3>
-            <p class="pd-lead">Payroll administration involves repeated salary calculations, scattered employee records and attendance tracking. SmartPay brings these tasks into one organized workflow.</p>
-            <h3 class="pd-h">Approach</h3>
-            <p class="pd-lead">Built a layered Spring Boot backend with REST APIs and MySQL/JDBC storage, connecting employee, attendance and payroll records with input validation and exception handling.</p>
+            <p class="pd-lead">Payroll tasks can become fragmented across employee records, attendance and repeated salary calculations. SmartPay brings these records and calculations into one administrative workflow.</p>
+            <h3 class="pd-h">Core Workflow</h3>
+            <ol class="pd-flow" role="list" aria-label="Project workflow"><li><span class="pd-step" aria-hidden="true">01</span><span>Employee records</span></li><li><span class="pd-step" aria-hidden="true">02</span><span>Attendance</span></li><li><span class="pd-step" aria-hidden="true">03</span><span>Salary calculation</span></li><li><span class="pd-step" aria-hidden="true">04</span><span>Payslip</span></li></ol>
+            <h3 class="pd-h">Engineering Decisions</h3>
+            <ul class="bullets pd-list"><li><strong>Separate responsibilities:</strong> controllers, services, repositories and entities keep request handling, payroll logic and database access distinct.</li><li><strong>Validated backend operations:</strong> validate employee and payroll inputs and handle exceptions around data operations before returning API responses.</li></ul>
             <h3 class="pd-h">Key Features</h3>
-            <ul class="bullets pd-list"><li><strong>Employee records:</strong> add, search, view and delete employees with department, designation and salary details.</li><li><strong>Salary processing:</strong> calculate gross and net salary from basic pay, HRA, allowances, tax and other deductions.</li><li><strong>Payroll records:</strong> generate payslips and provide payroll history and reports.</li><li><strong>Admin dashboard:</strong> bring employee totals, attendance information and salary charts into one overview.</li></ul>
+            <ul class="bullets pd-list"><li><strong>Employee records:</strong> add, search, view and delete employees with department, designation and salary details.</li><li><strong>Salary processing:</strong> combine basic salary, HRA and allowances into gross pay, then apply tax and other deductions to calculate net salary.</li><li><strong>Payroll records:</strong> generate payslips and provide payroll history and reports.</li><li><strong>Admin dashboard:</strong> bring employee totals, attendance information and salary charts into one overview.</li></ul>
             <h3 class="pd-h">Outcome</h3>
-            <p class="pd-lead">A live demo of an integrated payroll workflow, from maintaining employee records to calculating salaries and generating payslips.</p>
+            <p class="pd-lead pd-outcome">The live demo lets an administrator manage records, calculate payroll and inspect payslips and reports from one dashboard.</p>
             <h3 class="pd-h">Tech Stack</h3>
             <ul class="chips"><li><img src="assets/icons/java.svg" alt="" width="16" height="16">Java 21</li><li><img src="assets/icons/spring-icon.svg" alt="" width="16" height="16">Spring Boot</li><li><img src="assets/icons/mysql-icon.svg" alt="" width="16" height="16">MySQL</li><li>Maven</li><li>REST API</li><li>JDBC</li><li><img src="assets/icons/git-icon.svg" alt="" width="16" height="16">Git</li></ul>
             <div class="pd-actions"><a class="btn btn-primary btn-sm" href="https://smartpay-payroll-management-system.onrender.com/" target="_blank" rel="noopener">Live demo<span class="visually-hidden"> of SmartPay (opens in a new tab)</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a><span class="hint">Demo login admin / admin</span></div>
@@ -233,16 +235,18 @@
           <template id="pd-water">
             <p class="pd-kicker">Machine Learning course project</p>
             <h2 id="pd-title">WaterQualityAI</h2>
-            <p class="pd-lead">A remote-sensing research dashboard for exploring surface-water indicators and surrounding land cover from Sentinel-2 satellite imagery.</p>
+            <p class="pd-lead">A satellite-based research dashboard for comparing water extent and surrounding land cover across predefined and custom study areas.</p>
             <dl class="pd-facts"><div><dt>Type</dt><dd>Course project</dd></div><div><dt>Focus</dt><dd>AI/ML, remote sensing</dd></div><div><dt>Status</dt><dd>Live demo</dd></div></dl>
             <h3 class="pd-h">The Problem</h3>
-            <p class="pd-lead">Comparing lakes requires consistent satellite observations and a clear way to interpret water extent, surrounding land cover and changes over time.</p>
-            <h3 class="pd-h">Approach</h3>
-            <p class="pd-lead">Used Google Earth Engine to select imagery by cloud cover and spatial coverage, then combine spectral water indicators with a TensorFlow/Keras CNN trained on EuroSAT.</p>
+            <p class="pd-lead">Cloud cover, incomplete scene coverage and observations from different dates can make lake comparisons difficult to interpret. The platform presents scene context and spectral indicators alongside the results.</p>
+            <h3 class="pd-h">Core Workflow</h3>
+            <ol class="pd-flow" role="list" aria-label="Project workflow"><li><span class="pd-step" aria-hidden="true">01</span><span>Choose location</span></li><li><span class="pd-step" aria-hidden="true">02</span><span>Select imagery</span></li><li><span class="pd-step" aria-hidden="true">03</span><span>Analyse indicators</span></li><li><span class="pd-step" aria-hidden="true">04</span><span>Compare results</span></li></ol>
+            <h3 class="pd-h">Engineering Decisions</h3>
+            <ul class="bullets pd-list"><li><strong>Comparable imagery:</strong> use Google Earth Engine to filter out images above 20% cloud cover and prioritise observations with at least 90% spatial coverage.</li><li><strong>Meaningful area estimates:</strong> calculate water-area percentage over valid pixels, and use MNDWI and band statistics as complementary spectral indicators.</li></ul>
             <h3 class="pd-h">Key Features</h3>
-            <ul class="bullets pd-list"><li><strong>Two analysis modes:</strong> explore four predefined Chennai lakes or enter custom coordinates and a buffer distance.</li><li><strong>Water and spectral analysis:</strong> generate NDWI water masks and water-area percentages, with MNDWI and spectral band statistics for comparison.</li><li><strong>Land-cover context:</strong> classify imagery into ten EuroSAT classes and display classification confidence.</li><li><strong>Research dashboard:</strong> retain results, compare lakes and examine a historical dataset of 24 observations across four lakes in 2025.</li></ul>
+            <ul class="bullets pd-list"><li><strong>Study areas:</strong> analyse Chembarambakkam, Puzhal, Poondi and Sholavaram, or enter a custom location and buffer distance.</li><li><strong>Water and spectral analysis:</strong> generate NDWI water masks and water-area percentages, with MNDWI and spectral band statistics for comparison.</li><li><strong>Land-cover context:</strong> classify imagery into ten EuroSAT classes and display classification confidence.</li><li><strong>Research dashboard:</strong> retain results, compare lakes and examine temporal variations across 24 observations from four lakes in 2025.</li></ul>
             <h3 class="pd-h">Outcome</h3>
-            <p class="pd-lead">A live Streamlit dashboard for viewing satellite imagery, comparing lake indicators and examining historical changes.</p>
+            <p class="pd-lead pd-outcome">The deployed Streamlit dashboard brings RGB satellite views, water masks, spectral statistics and land-cover context into one research workflow.</p>
             <h3 class="pd-h">Scientific Scope</h3>
             <p class="pd-lead">Satellite indicators and land-cover predictions do not measure chemical or biological water quality. They cannot confirm pollution or water safety without field or laboratory measurements.</p>
             <h3 class="pd-h">Tech Stack</h3>
@@ -252,16 +256,20 @@
           <template id="pd-ideontra">
             <p class="pd-kicker">CloseFuture internship</p>
             <h2 id="pd-title">Ideontra</h2>
-            <p class="pd-lead">An internal innovation platform for CloseFuture employees to submit ideas, collaborate and track them through implementation.</p>
+            <p class="pd-lead">An employee innovation workspace that connects idea submission, collaboration, evaluation and execution in one traceable workflow.</p>
             <dl class="pd-facts"><div><dt>Type</dt><dd>Internship project</dd></div><div><dt>Focus</dt><dd>Full-stack</dd></div><div><dt>Status</dt><dd>Deployed</dd></div></dl>
             <h3 class="pd-h">The Problem</h3>
-            <p class="pd-lead">Ideas shared through scattered messages can be hard to evaluate and follow up on. Employees need visibility into progress, while administrators need a consistent review process.</p>
+            <p class="pd-lead">An idea can get lost in scattered messages before it has a reviewer or owner. Ideontra gives employees visibility into progress and administrators a structured route from evaluation to execution.</p>
             <h3 class="pd-h">My Contribution</h3>
-            <p class="pd-lead">As the full-stack developer, I translated requirements into Member and Admin workflows, designed dashboard and modal interactions in Pencil, built responsive frontend components and connected them to validated database functions and access controls.</p>
+            <p class="pd-lead">Implemented the Member and Admin experiences across the frontend and database. Designed dashboard and modal interactions in Pencil, built responsive components, and connected idea workflows, participation reports and reminder automation.</p>
+            <h3 class="pd-h">Core Workflow</h3>
+            <ol class="pd-flow" role="list" aria-label="Project workflow"><li><span class="pd-step" aria-hidden="true">01</span><span>Submit idea</span></li><li><span class="pd-step" aria-hidden="true">02</span><span>Evaluate</span></li><li><span class="pd-step" aria-hidden="true">03</span><span>Assign owner</span></li><li><span class="pd-step" aria-hidden="true">04</span><span>Track outcome</span></li></ol>
+            <h3 class="pd-h">Engineering Decisions</h3>
+            <ul class="bullets pd-list"><li><strong>Permissions in the database:</strong> JWT role claims, Row Level Security and validated functions keep Member and Admin operations within their allowed scope.</li><li><strong>Keep work in context:</strong> board/list views and consistent modal interactions connect submission, discussion, evaluation and execution without losing the idea context.</li></ul>
             <h3 class="pd-h">Key Features</h3>
-            <ul class="bullets pd-list"><li><strong>Submission and collaboration:</strong> private drafts, structured ideas, voting, following and threaded discussions.</li><li><strong>Idea lifecycle:</strong> impact-and-effort evaluation, owner assignment, target dates and progress tracking through completion.</li><li><strong>Board and list views:</strong> search, filters and live updates help employees and administrators find relevant ideas.</li><li><strong>Access control:</strong> Supabase Authentication, JWT role claims and PostgreSQL Row Level Security separate permissions and protect private drafts.</li><li><strong>Participation workflows:</strong> employee reports, optional campaigns and reminders through Supabase Edge Functions, Cron and Resend.</li></ul>
+            <ul class="bullets pd-list"><li><strong>Submission and collaboration:</strong> private drafts, structured ideas, voting, following and threaded discussions.</li><li><strong>Idea lifecycle:</strong> impact-and-effort evaluation, owner assignment, target dates and progress tracking through completion.</li><li><strong>Board and list views:</strong> search, filters and live updates help employees and administrators find relevant ideas.</li><li><strong>Access control:</strong> Supabase Authentication, JWT role claims and PostgreSQL Row Level Security separate permissions and protect private drafts.</li><li><strong>Participation workflows:</strong> employee reports, optional campaigns and reminders through Supabase Edge Functions, Cron and Resend.</li><li><strong>AI-assisted exploration:</strong> idea-focused conversations with private chat history.</li></ul>
             <h3 class="pd-h">Outcome</h3>
-            <p class="pd-lead">Deployed on Vercel for internal use at CloseFuture, bringing idea submission, review and execution into one workspace. Company sign-in is required.</p>
+            <p class="pd-lead pd-outcome">Delivered and deployed the responsive frontend, database workflows, access controls and reminder automation as one internal application on Vercel. Company sign-in is required.</p>
             <h3 class="pd-h">Tech Stack</h3>
             <ul class="chips"><li><img src="assets/icons/nextjs-icon.svg" alt="" width="16" height="16">Next.js</li><li><img src="assets/icons/typescript-icon.svg" alt="" width="16" height="16">TypeScript</li><li><img src="assets/icons/tailwindcss-icon.svg" alt="" width="16" height="16">Tailwind CSS</li><li>TanStack Query</li><li><img src="assets/icons/supabase-icon.svg" alt="" width="16" height="16">Supabase</li><li><img src="assets/icons/postgresql.svg" alt="" width="16" height="16">PostgreSQL</li></ul>
             <div class="pd-actions"><a class="btn btn-primary btn-sm" href="https://ideontra.vercel.app/" target="_blank" rel="noopener">Visit site<span class="visually-hidden"> of Ideontra (opens in a new tab)</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a><a class="btn btn-outline btn-sm" href="https://github.com/nvnavishthi-droid/Ideontra" target="_blank" rel="noopener">Source code<span class="visually-hidden"> for Ideontra (opens in a new tab)</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a><span class="hint">Company sign-in required</span></div>
@@ -269,16 +277,18 @@
           <template id="pd-chatbot">
             <p class="pd-kicker">CloseFuture internship</p>
             <h2 id="pd-title">CloseFuture AI website chatbot</h2>
-            <p class="pd-lead">A website assistant that answers CloseFuture questions from published sources and guides visitors through discovery-meeting bookings.</p>
+            <p class="pd-lead">A company website assistant that pairs answers grounded in published sources with guided meeting booking, rescheduling and cancellation.</p>
             <dl class="pd-facts"><div><dt>Type</dt><dd>Internship project</dd></div><div><dt>Focus</dt><dd>AI agents, RAG</dd></div><div><dt>Status</dt><dd>Demo coming soon</dd></div></dl>
             <h3 class="pd-h">The Problem</h3>
-            <p class="pd-lead">Visitors need reliable company information, contextual follow-up answers and a straightforward way to arrange meetings without leaving the conversation.</p>
-            <h3 class="pd-h">Approach</h3>
-            <p class="pd-lead">Separated company queries, meeting operations and safety checks into three LangGraph agents: Orchestrator, Scheduler and an independent Guardrail, running in one Python/FastAPI backend.</p>
+            <p class="pd-lead">A visitor may ask follow-up questions about company work and then request a meeting in the same conversation. The assistant needs to preserve context, cite reliable sources and handle calendar changes deliberately.</p>
+            <h3 class="pd-h">Core Workflow</h3>
+            <ol class="pd-flow" role="list" aria-label="Project workflow"><li><span class="pd-step" aria-hidden="true">01</span><span>Validate input</span></li><li><span class="pd-step" aria-hidden="true">02</span><span>Route request</span></li><li><span class="pd-step" aria-hidden="true">03</span><span>Retrieve / schedule</span></li><li><span class="pd-step" aria-hidden="true">04</span><span>Validate output</span></li></ol>
+            <h3 class="pd-h">Engineering Decisions</h3>
+            <ul class="bullets pd-list"><li><strong>Three agent boundaries:</strong> one Python/FastAPI backend separates Orchestrator, Scheduler and Guardrail responsibilities; retrieval remains a pipeline rather than another agent.</li><li><strong>Hybrid evidence:</strong> merge semantic and BM25 rankings with Reciprocal Rank Fusion to combine conceptual matches with exact terminology.</li><li><strong>Checked calendar actions:</strong> recheck availability before writes, require explicit confirmation and reconcile uncertain operations before retrying to avoid duplicate events.</li></ul>
             <h3 class="pd-h">Key Features</h3>
-            <ul class="bullets pd-list"><li><strong>Grounded answers:</strong> combine semantic search and BM25 with Reciprocal Rank Fusion, using Supabase pgvector and source citations.</li><li><strong>Meeting workflow:</strong> check Google Calendar availability through MCP, review booking details and support owner approval, rescheduling and cancellation.</li><li><strong>Safety and reliability:</strong> validate incoming and outgoing messages, require confirmation for calendar changes and reconcile uncertain writes before retrying.</li><li><strong>Conversation continuity:</strong> retain authorized chat history, source links and feedback, with daily website synchronization for updated knowledge.</li><li><strong>Website integration:</strong> a floating Next.js chat widget brings company answers and calendar-booking controls into one interface.</li></ul>
+            <ul class="bullets pd-list"><li><strong>Source-cited answers:</strong> use approved CloseFuture pages and preserve the visitor's question context when selecting relevant evidence from Supabase pgvector.</li><li><strong>Meeting workflow:</strong> check Google Calendar availability through MCP, review booking details and support owner approval, rescheduling and cancellation.</li><li><strong>Guardrails:</strong> validate incoming messages and outgoing answers, including clarifications and fallback responses.</li><li><strong>Conversation continuity:</strong> retain authorized chat history, source links and feedback, with daily website synchronization for updated knowledge.</li><li><strong>Website integration:</strong> a floating Next.js chat widget brings company answers and calendar-booking controls into one interface.</li></ul>
             <h3 class="pd-h">Outcome</h3>
-            <p class="pd-lead">A source-grounded assistant that combines company information and guided scheduling in one conversation. The public demo link is coming soon.</p>
+            <p class="pd-lead pd-outcome">Delivered a floating chat widget and backend for source-cited company answers, guided meeting operations and persistent conversation history. The public demo link is coming soon.</p>
             <h3 class="pd-h">Tech Stack</h3>
             <ul class="chips"><li><img src="assets/icons/python.svg" alt="" width="16" height="16">Python</li><li><img src="assets/icons/fastapi-icon.svg" alt="" width="16" height="16">FastAPI</li><li>LangGraph</li><li><img src="assets/icons/google-gemini-icon.svg" alt="" width="16" height="16">Gemini</li><li><img src="assets/icons/supabase-icon.svg" alt="" width="16" height="16">Supabase</li><li><img src="assets/icons/supabase-icon.svg" alt="" width="16" height="16">pgvector</li><li><img src="assets/icons/nextjs-icon.svg" alt="" width="16" height="16">Next.js</li><li><img src="assets/icons/tailwindcss-icon.svg" alt="" width="16" height="16">Tailwind CSS</li><li>MCP</li></ul>
             <div class="pd-actions"><span class="pending">Live demo coming soon</span></div>
