@@ -193,135 +193,121 @@
     });
     dlg.querySelector(".pd-close").addEventListener("click", close);
     dlg.addEventListener("click", (e) => { if (e.target === dlg) close(); }); // click on the backdrop
-    document.querySelectorAll(".btn-details").forEach((b) => b.addEventListener("click", async (e) => {
+    document.querySelectorAll(".btn-details").forEach((b) => b.addEventListener("click", (e) => {
       e.stopPropagation();
       if (triggerAnimation) return;
       if (reduced || typeof b.animate !== "function") { open(b.dataset.project); return; }
       const card = b.closest(".project");
-      const origin = card.getBoundingClientRect(), button = b.getBoundingClientRect();
+      const bounds = card.getBoundingClientRect(), button = b.getBoundingClientRect();
       const diameter = Math.hypot(card.clientWidth, card.clientHeight) * 2;
       const ripple = document.createElement("span");
       ripple.className = "project-ripple";
       ripple.setAttribute("aria-hidden", "true");
-      ripple.style.width = ripple.style.height = `${diameter}px`;
-      ripple.style.left = `${(button.left + button.width / 2 - origin.left) * card.offsetWidth / origin.width - diameter / 2}px`;
-      ripple.style.top = `${(button.top + button.height / 2 - origin.top) * card.offsetHeight / origin.height - diameter / 2}px`;
+      Object.assign(ripple.style, {
+        width: `${diameter}px`, height: `${diameter}px`,
+        left: `${(button.left + button.width / 2 - bounds.left) * card.offsetWidth / bounds.width - diameter / 2}px`,
+        top: `${(button.top + button.height / 2 - bounds.top) * card.offsetHeight / bounds.height - diameter / 2}px`
+      });
       card.append(ripple);
       b.classList.add("is-opening");
       card.classList.add("is-opening");
-      const rippleAnimation = triggerAnimation = ripple.animate([
-        { transform: "scale(.02)", opacity: .24 },
-        { opacity: .16, offset: .65 },
-        { transform: "scale(1)", opacity: 0 }
-      ], { duration: 360, easing: "cubic-bezier(0.2, 0.6, 0.35, 1)" });
-      const cancelRipple = () => rippleAnimation.cancel();
-      const escapeRipple = (event) => { if (event.key === "Escape") cancelRipple(); };
-      window.addEventListener("resize", cancelRipple, { once: true });
-      window.addEventListener("keydown", escapeRipple);
-      try { await rippleAnimation.finished; }
-      catch { return; }
-      finally {
-        window.removeEventListener("resize", cancelRipple);
-        window.removeEventListener("keydown", escapeRipple);
-        ripple.remove();
-        b.classList.remove("is-opening");
-        card.classList.remove("is-opening");
-        if (triggerAnimation === rippleAnimation) triggerAnimation = null;
-      }
-      const bounds = card.getBoundingClientRect();
       const stage = document.createElement("dialog");
       stage.className = "pf-stage";
       stage.setAttribute("aria-label", "Opening project details");
       stage.tabIndex = -1;
-      const scene = document.createElement("div");
-      scene.className = "pf-scene";
-      scene.setAttribute("aria-hidden", "true");
-      scene.inert = true;
-      const front = card.cloneNode(true);
-      front.className = "project pf-front";
-      front.removeAttribute("style");
-      front.removeAttribute("id");
-      front.querySelectorAll("[id]").forEach((el) => el.removeAttribute("id"));
-      const back = document.createElement("div");
-      back.className = "pd pf-measure";
-      const closeIcon = dlg.querySelector(".pd-close").cloneNode(true);
+      const preview = document.createElement("div");
+      preview.className = "pd pf-measure";
+      preview.inert = true;
+      preview.setAttribute("aria-hidden", "true");
       const details = document.createElement("div");
       details.className = "pd-content";
       details.append(document.getElementById("pd-" + b.dataset.project).content.cloneNode(true));
-      back.append(closeIcon, details);
-      back.querySelectorAll("[id]").forEach((el) => el.removeAttribute("id"));
-      back.inert = true;
-      back.setAttribute("aria-hidden", "true");
-      document.body.append(back);
-      const target = back.getBoundingClientRect();
-      const left = (innerWidth - target.width) / 2, top = (innerHeight - target.height) / 2;
-      back.className = "pd pf-cube-top";
-      const cube = document.createElement("div");
-      cube.className = "pf-back pf-cube";
-      const expansion = document.createElement("div"), rotor = document.createElement("div");
-      expansion.className = "pf-cube-expansion";
-      rotor.className = "pf-cube-rotor";
-      const depth = target.height / 2;
-      const buttonScale = `scale(${b.offsetWidth / target.width}, ${b.offsetHeight / target.height})`;
-      expansion.style.transform = buttonScale;
-      rotor.style.transform = `translateZ(${-depth}px) rotateX(0deg)`;
-      const buttonFace = document.createElement("div");
-      buttonFace.className = "pf-cube-front";
-      buttonFace.style.transform = `translateZ(${depth}px)`;
-      const buttonClone = b.cloneNode(true);
-      Object.assign(buttonClone.style, {
-        width: `${b.offsetWidth}px`, height: `${b.offsetHeight}px`,
-        transform: `scale(${target.width / b.offsetWidth}, ${target.height / b.offsetHeight})`
+      preview.append(dlg.querySelector(".pd-close").cloneNode(true), details);
+      preview.querySelectorAll("[id]").forEach((el) => el.removeAttribute("id"));
+      document.body.append(preview);
+      const target = preview.getBoundingClientRect();
+      preview.className = "pd pc-modal";
+      Object.assign(preview.style, {
+        left: `${(innerWidth - target.width) / 2}px`, top: `${(innerHeight - target.height) / 2}px`,
+        width: `${target.width}px`, height: `${target.height}px`
       });
-      buttonFace.append(buttonClone);
-      back.style.transform = `rotateX(90deg) translateZ(${depth}px)`;
-      rotor.append(buttonFace, back);
-      expansion.append(rotor);
-      cube.append(expansion);
-      Object.assign(scene.style, { left: `${left}px`, top: `${top}px`, width: `${target.width}px`, height: `${target.height}px` });
-      Object.assign(front.style, {
-        width: `${card.offsetWidth}px`, height: `${card.offsetHeight}px`,
-        transform: `scale(${target.width / card.offsetWidth}, ${target.height / card.offsetHeight})`
-      });
-      scene.append(front, cube);
-      stage.append(scene);
+      const size = innerWidth <= 640 ? 56 : 72;
+      const visual = document.createElement("div");
+      visual.className = "pc-visual";
+      const net = document.createElement("div");
+      net.className = "pc-net";
+      net.setAttribute("aria-hidden", "true");
+      net.inert = true;
+      net.style.setProperty("--cube-size", `${size}px`);
+      Object.assign(net.style, { left: `${(innerWidth - size) / 2}px`, top: `${(innerHeight - size) / 2}px` });
+      const core = document.createElement("div");
+      core.className = "pc-core";
+      const face = () => { const el = document.createElement("div"); el.className = "pc-face"; return el; };
+      const front = face();
+      const mark = document.createElement("span");
+      mark.className = "pc-mark";
+      mark.textContent = "NV";
+      front.append(mark);
+      core.append(front);
+      const hinges = [];
+      const hinge = (parent, side, rotation) => {
+        const el = document.createElement("div");
+        el.className = "pc-hinge pc-" + side;
+        el.style.transform = rotation;
+        el.append(face()); parent.append(el);
+        hinges.push({ el, rotation });
+        return el;
+      };
+      const lid = hinge(core, "top", "rotateX(90deg)");
+      hinge(core, "bottom", "rotateX(-90deg)");
+      hinge(core, "left", "rotateY(-90deg)");
+      hinge(core, "right", "rotateY(90deg)");
+      hinge(lid, "top", "rotateX(90deg)");
+      net.append(core);
+      visual.append(net);
+      stage.append(visual, preview);
       document.body.append(stage);
       root.classList.add("pd-open");
       stage.showModal();
-      const dx = bounds.left + bounds.width / 2 - (left + target.width / 2);
-      const dy = bounds.top + bounds.height / 2 - (top + target.height / 2);
-      const animation = triggerAnimation = scene.animate([
-        { transform: `perspective(1600px) translate3d(${dx}px, ${dy}px, 0) rotateY(0deg) scale(${bounds.width / target.width}, ${bounds.height / target.height})` },
-        { transform: "perspective(1600px) translate3d(0, 0, 0) rotateY(180deg) scale(1, 1)" }
-      ], { duration: 620, easing: "cubic-bezier(0.2, 0.65, 0.3, 1)", fill: "forwards" });
-      let rolling = [];
-      const cancel = () => { animation.cancel(); rolling.forEach((part) => part.cancel()); };
+      const ease = "cubic-bezier(0.22, 0.8, 0.25, 1)";
+      const small = `scale(${size / target.width}, ${size / target.height})`;
+      const animations = [
+        ripple.animate([{ transform: "scale(.02)", opacity: .24 }, { transform: "scale(1)", opacity: 0 }], { duration: 220, easing: ease }),
+        net.animate([
+          { transform: "perspective(1000px) translate3d(-24px, 18px, 0) rotateX(-28deg) rotateY(-38deg) rotateZ(-12deg) scale(.8)" },
+          { transform: "perspective(1000px) translate3d(12px, -10px, 0) rotateX(-300deg) rotateY(300deg) rotateZ(14deg) scale(1.08)", offset: .65 },
+          { transform: "perspective(1000px) translate3d(0, 0, 0) rotateX(-360deg) rotateY(360deg) rotateZ(0deg) scale(1)" }
+        ], { duration: 300, delay: 60, easing: ease, fill: "both" }),
+        core.animate([{ transform: `translateZ(${size / 2}px)` }, { transform: "translateZ(0px)" }], { duration: 180, delay: 340, easing: ease, fill: "both" }),
+        visual.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 160, delay: 500, fill: "forwards" }),
+        mark.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 100, delay: 440, fill: "forwards" })
+      ];
+      hinges.forEach(({ el, rotation }) => animations.push(el.animate([
+        { transform: rotation }, { transform: "rotateX(0deg) rotateY(0deg)" }
+      ], { duration: 180, delay: 340, easing: ease, fill: "both" })));
+      const expansion = triggerAnimation = preview.animate([
+        { transform: small, opacity: 0 },
+        { transform: small, opacity: 1, offset: .08 },
+        { transform: "scale(1, 1)", opacity: 1 }
+      ], { duration: 200, delay: 500, easing: ease, fill: "both" });
+      animations.push(expansion);
+      const cancel = () => expansion.cancel();
       stage.addEventListener("cancel", (event) => { event.preventDefault(); cancel(); });
       window.addEventListener("resize", cancel, { once: true });
       const cleanup = () => {
         window.removeEventListener("resize", cancel);
-        stage.close();
-        stage.remove();
-        if (triggerAnimation === animation || rolling.includes(triggerAnimation)) triggerAnimation = null;
-        cancel();
+        stage.close(); stage.remove(); ripple.remove();
+        animations.forEach((animation) => animation.cancel());
+        b.classList.remove("is-opening"); card.classList.remove("is-opening");
+        if (triggerAnimation === expansion) triggerAnimation = null;
         if (!dlg.open) root.classList.remove("pd-open");
         b.focus({ preventScroll: true });
       };
-      animation.finished.then(async () => {
-        const rollTiming = { duration: 520, easing: "cubic-bezier(0.22, 0.8, 0.25, 1)", fill: "forwards" };
-        rolling = [
-          expansion.animate([{ transform: buttonScale }, { transform: "scale(1, 1)" }], rollTiming),
-          rotor.animate([
-            { transform: `translateZ(${-depth}px) rotateX(0deg)` },
-            { transform: `translateZ(${-depth}px) rotateX(-90deg)` }
-          ], rollTiming)
-        ];
-        triggerAnimation = rolling[0];
-        await Promise.all(rolling.map((part) => part.finished));
+      expansion.finished.then(() => {
         cleanup();
         dlg.classList.add("pd-from-flip");
         open(b.dataset.project);
-      }).catch(cleanup);
+      }, cleanup);
     }));
     // clicking anywhere on a card (except its links and buttons) also opens it
     document.querySelectorAll(".project").forEach((card) => {
