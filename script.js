@@ -99,6 +99,39 @@
     });
   }
 
+  // ---------- Touch screens: same 3D tilt, glow border and spotlight while a finger is on a card ----------
+  if (!fine && !reduced && ("ontouchstart" in window || navigator.maxTouchPoints > 0)) {
+    const MAXT = 8; // degrees
+    document.querySelectorAll(".project, .skill-card, .cp-card, .cert, .stat, .facts li, .job-card, .edu-card").forEach((card) => {
+      card.classList.add("tilt", "spot");
+      let raf = 0, endTimer = 0;
+      const tilt = (t) => {
+        const r = card.getBoundingClientRect();
+        const px = Math.min(1, Math.max(0, (t.clientX - r.left) / r.width)) - 0.5;
+        const py = Math.min(1, Math.max(0, (t.clientY - r.top) / r.height)) - 0.5;
+        card.style.setProperty("--mx", `${t.clientX - r.left}px`);
+        card.style.setProperty("--my", `${t.clientY - r.top}px`);
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+          card.classList.add("is-touching"); card.classList.remove("is-resting");
+          card.style.transform = `perspective(900px) rotateX(${(-py * MAXT).toFixed(2)}deg) rotateY(${(px * MAXT).toFixed(2)}deg) translateY(-4px)`;
+        });
+      };
+      const release = () => {
+        clearTimeout(endTimer);
+        endTimer = setTimeout(() => {
+          cancelAnimationFrame(raf);
+          card.classList.remove("is-touching"); card.classList.add("is-resting");
+          card.style.transform = "";
+        }, 220);
+      };
+      card.addEventListener("touchstart", (e) => { clearTimeout(endTimer); tilt(e.touches[0]); }, { passive: true });
+      card.addEventListener("touchmove", (e) => tilt(e.touches[0]), { passive: true });
+      card.addEventListener("touchend", release, { passive: true });
+      card.addEventListener("touchcancel", release, { passive: true });
+    });
+  }
+
   // ---------- Copy email button ----------
   const copyBtn = document.querySelector(".copy-btn");
   if (copyBtn) {

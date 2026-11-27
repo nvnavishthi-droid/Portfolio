@@ -89,3 +89,6 @@ html.dark .spot::before { background: radial-gradient(320px circle at var(--mx, 
   html.dark .hero-photo:hover .photo-frame { box-shadow: 0 30px 60px -24px rgba(0, 0, 0, .8), 0 10px 24px -12px rgba(0, 0, 0, .5); }
   html.dark .hero-photo:hover .ring { filter: saturate(1.2) brightness(1.12); }
 }
+
+/* Touch tilt shadow in dark mode: neutral, no coloured glow */
+html.dark .tilt.is-touching { box-shadow: 0 2px 4px rgba(0, 0, 0, .35), 0 30px 60px -24px rgba(0, 0, 0, .75); }

@@ -554,3 +554,10 @@ h3 { font-size: 1.25rem; font-weight: 800; }
   .job-card, .edu-card { transition: transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease); }
   .job-card:hover, .edu-card:hover { box-shadow: var(--shadow-md); border-color: var(--em-200); }
 }
+
+/* Touch screens: the 3D tilt, glow border and spotlight show while a finger is on a card */
+.tilt.is-touching { transition: transform .15s linear, box-shadow .3s var(--ease), border-color .3s var(--ease); box-shadow: 0 2px 4px rgba(15, 26, 21, .05), 0 30px 60px -24px rgba(4, 120, 87, .35); }
+.tilt.is-touching > * { transform: translateZ(18px); }
+.tilt.is-resting { transition: transform .6s var(--ease), box-shadow .4s var(--ease); }
+.gb.is-touching::after { opacity: 1; }
+.spot.is-touching::before { opacity: 1; }
