@@ -132,6 +132,45 @@
     });
   }
 
+  // ---------- Project details pop-up ----------
+  const dlg = document.getElementById("project-dialog");
+  if (dlg && typeof dlg.showModal === "function") {
+    const content = dlg.querySelector(".pd-content");
+    let pushed = false;
+    const open = (id, push = true) => {
+      const tpl = document.getElementById("pd-" + id);
+      if (!tpl) return;
+      content.replaceChildren(tpl.content.cloneNode(true));
+      if (!dlg.open) dlg.showModal();
+      dlg.scrollTop = 0; content.scrollTop = 0;
+      root.classList.add("pd-open");
+      if (push) { history.pushState({ pd: id }, "", "#project-" + id); pushed = true; }
+      else pushed = false;
+    };
+    const close = () => { if (dlg.open) dlg.close(); };
+    dlg.addEventListener("close", () => {
+      root.classList.remove("pd-open");
+      if (location.hash.startsWith("#project-")) {
+        if (pushed) { pushed = false; history.back(); }
+        else history.replaceState(null, "", location.pathname + location.search);
+      }
+    });
+    dlg.querySelector(".pd-close").addEventListener("click", close);
+    dlg.addEventListener("click", (e) => { if (e.target === dlg) close(); }); // click on the backdrop
+    document.querySelectorAll(".btn-details").forEach((b) => b.addEventListener("click", (e) => { e.stopPropagation(); open(b.dataset.project); }));
+    // clicking anywhere on a card (except its links and buttons) also opens it
+    document.querySelectorAll(".project").forEach((card) => {
+      card.classList.add("is-clickable");
+      card.addEventListener("click", (e) => { if (e.target.closest("a, button")) return; open(card.id); });
+    });
+    window.addEventListener("popstate", () => {
+      const m = location.hash.match(/^#project-(\w+)/);
+      if (m) open(m[1], false); else if (dlg.open) { pushed = false; dlg.close(); }
+    });
+    const m = location.hash.match(/^#project-(\w+)/);
+    if (m) open(m[1], false);
+  }
+
   // ---------- Copy email button ----------
   const copyBtn = document.querySelector(".copy-btn");
   if (copyBtn) {

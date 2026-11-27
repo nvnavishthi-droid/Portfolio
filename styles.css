@@ -561,3 +561,48 @@ h3 { font-size: 1.25rem; font-weight: 800; }
 .tilt.is-resting { transition: transform .6s var(--ease), box-shadow .4s var(--ease); }
 .gb.is-touching::after { opacity: 1; }
 .spot.is-touching::before { opacity: 1; }
+
+/* ---------- Project details pop-up ---------- */
+.project.is-clickable { cursor: pointer; }
+.btn-details { background: var(--card); color: var(--em-strong); border-color: var(--em-200); cursor: pointer; }
+.btn-details svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: transform .2s var(--ease); }
+.btn-details:hover { border-color: var(--em); background: var(--em-50); }
+.btn-details:hover svg { transform: translateX(3px); }
+.btn-details:focus-visible { outline: 3px solid var(--em-bright); outline-offset: 2px; }
+html.pd-open { overflow: hidden; }
+
+.pd { width: min(860px, calc(100vw - 40px)); max-height: min(88vh, 920px); padding: 0; border: 1px solid var(--line); border-radius: 24px; background: var(--card); color: var(--ink); box-shadow: 0 30px 80px -20px rgba(15, 26, 21, .35); overflow: hidden; }
+.pd[open] { display: flex; flex-direction: column; animation: pd-in .35s var(--ease); }
+.pd::backdrop { background: rgba(10, 20, 16, .55); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); animation: pd-fade .3s ease; }
+.pd-content { overflow-y: auto; overscroll-behavior: contain; padding: 40px 44px 36px; }
+.pd-close { position: absolute; top: 16px; right: 16px; z-index: 2; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--line); background: var(--card); color: var(--ink); cursor: pointer; transition: border-color .2s var(--ease), color .2s var(--ease), transform .2s var(--ease); }
+.pd-close svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
+.pd-close:hover { border-color: var(--em); color: var(--em); transform: rotate(90deg); }
+.pd-close:focus-visible { outline: 3px solid var(--em-bright); outline-offset: 2px; }
+.pd-kicker { font-weight: 700; font-size: .9375rem; color: var(--em); padding-right: 56px; }
+.pd h2 { margin-top: 6px; font-size: clamp(1.75rem, 3.2vw, 2.25rem); font-weight: 800; letter-spacing: -0.025em; padding-right: 56px; }
+.pd-lead { margin-top: 14px; font-size: 1.0625rem; color: var(--muted); max-width: 68ch; }
+.pd-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 24px 0 0; }
+.pd-facts div { padding: 14px 16px; border-radius: 14px; background: var(--alt); border: 1px solid var(--line); }
+.pd-facts dt { font-size: .75rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--soft); }
+.pd-facts dd { margin: 4px 0 0; font-weight: 700; }
+.pd-h { margin-top: 30px; font-size: 1.125rem; font-weight: 800; }
+.pd-list { margin-top: 12px; }
+.pd-list li { color: var(--muted); }
+.pd .chips { margin-top: 12px; }
+.pd-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--line); }
+@keyframes pd-in { from { opacity: 0; transform: translateY(16px) scale(.97); } to { opacity: 1; transform: none; } }
+@keyframes pd-fade { from { opacity: 0; } to { opacity: 1; } }
+@media (max-width: 640px) {
+  .pd { width: 100vw; max-width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0; border-radius: 0; border: 0; }
+  .pd[open] { animation: pd-up .35s var(--ease); }
+  .pd-content { padding: 72px 22px 32px; }
+  .pd-close { top: 14px; right: 14px; }
+  .pd-kicker, .pd h2 { padding-right: 0; }
+  .pd-facts { grid-template-columns: 1fr; gap: 0; border: 1px solid var(--line); border-radius: 14px; background: var(--alt); }
+  .pd-facts div { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 11px 14px; border: 0; border-radius: 0; background: none; }
+  .pd-facts div + div { border-top: 1px solid var(--line); }
+  .pd-facts dd { margin: 0; text-align: right; }
+}
+@keyframes pd-up { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .pd[open], .pd::backdrop { animation: none; } }

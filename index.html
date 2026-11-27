@@ -14,7 +14,7 @@
   <meta property="og:description" content="Second-year CSE student at Chennai Institute of Technology. AI/ML and full-stack projects with live demos.">
   <meta name="twitter:card" content="summary">
   <link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=38">
+  <link rel="stylesheet" href="styles.css?v=40">
   <!-- DARK MODE --><link rel="stylesheet" href="dark.css?v=5"><script src="dark.js?v=1"></script>
   <script>(function(){var d=document.documentElement,still=/[?&]still\b/.test(location.search),rm=matchMedia("(prefers-reduced-motion: reduce)").matches;var rev=!still&&!rm&&"IntersectionObserver"in window;if(!still&&!rev)d.classList.add("is-entering");if(rev){d.classList.add("js-reveal");setTimeout(function(){if(!d.classList.contains("reveal-ready"))d.classList.add("reveal-safe")},3000);}})();</script>
 </head>
@@ -170,7 +170,7 @@
                 <li>MySQL over JDBC with CRUD, input validation and exception handling.</li>
               </ul>
               <ul class="chips"><li><img src="assets/icons/java.svg" alt="" width="16" height="16">Java 21</li><li><img src="assets/icons/spring-icon.svg" alt="" width="16" height="16">Spring Boot</li><li><img src="assets/icons/mysql-icon.svg" alt="" width="16" height="16">MySQL</li><li>Maven</li><li>REST API</li></ul>
-              <div class="project-links">
+              <div class="project-links"><button type="button" class="btn btn-sm btn-details" data-project="smartpay" aria-haspopup="dialog">View details<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></button>
                 <a class="btn btn-primary btn-sm" href="https://smartpay-payroll-management-system.onrender.com/" target="_blank" rel="noopener">Live demo<span class="visually-hidden"> of SmartPay (opens in a new tab)</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
                 <span class="hint">Demo login admin / admin</span>
               </div>
@@ -187,7 +187,7 @@
                 <li>Spectral analysis on bands B3, B4, B8 and B11 with a 10-class EuroSAT CNN for land cover.</li>
               </ul>
               <ul class="chips"><li><img src="assets/icons/python.svg" alt="" width="16" height="16">Python</li><li><img src="assets/icons/tensorflow.svg" alt="" width="16" height="16">TensorFlow</li><li>Google Earth Engine</li><li>Sentinel-2</li><li><img src="assets/icons/streamlit.svg" alt="" width="16" height="16">Streamlit</li></ul>
-              <div class="project-links">
+              <div class="project-links"><button type="button" class="btn btn-sm btn-details" data-project="water" aria-haspopup="dialog">View details<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></button>
                 <a class="btn btn-primary btn-sm" href="https://waterqualityai-6fpfbg9mgwyysrtrmabiro.streamlit.app/" target="_blank" rel="noopener">Live demo<span class="visually-hidden"> of WaterQualityAI (opens in a new tab)</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
               </div>
             </div>
@@ -203,7 +203,7 @@
                 <li>Board and list views with live updates, AI chat and automated reminders via Supabase Edge Functions, Cron and Resend.</li>
               </ul>
               <ul class="chips"><li><img src="assets/icons/nextjs-icon.svg" alt="" width="16" height="16">Next.js</li><li><img src="assets/icons/typescript-icon.svg" alt="" width="16" height="16">TypeScript</li><li><img src="assets/icons/tailwindcss-icon.svg" alt="" width="16" height="16">Tailwind CSS</li><li><img src="assets/icons/supabase-icon.svg" alt="" width="16" height="16">Supabase</li><li><img src="assets/icons/postgresql.svg" alt="" width="16" height="16">PostgreSQL</li></ul>
-              <div class="project-links">
+              <div class="project-links"><button type="button" class="btn btn-sm btn-details" data-project="ideontra" aria-haspopup="dialog">View details<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></button>
                 <a class="btn btn-primary btn-sm" href="https://ideontra.vercel.app/" target="_blank" rel="noopener">Visit site<span class="visually-hidden"> of Ideontra (opens in a new tab)</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
                 <span class="hint">Company sign-in required</span>
               </div>
@@ -220,10 +220,60 @@
                 <li>RAG over 180+ pages with 1,536-dimension Gemini embeddings, semantic search, BM25 and Reciprocal Rank Fusion.</li>
               </ul>
               <ul class="chips"><li><img src="assets/icons/python.svg" alt="" width="16" height="16">Python</li><li><img src="assets/icons/fastapi-icon.svg" alt="" width="16" height="16">FastAPI</li><li>LangGraph</li><li><img src="assets/icons/google-gemini-icon.svg" alt="" width="16" height="16">Gemini</li><li><img src="assets/icons/supabase-icon.svg" alt="" width="16" height="16">pgvector</li><li>MCP</li></ul>
-              <div class="project-links"><span class="pending">Live demo coming soon</span></div>
+              <div class="project-links"><button type="button" class="btn btn-sm btn-details" data-project="chatbot" aria-haspopup="dialog">View details<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></button><span class="pending">Live demo coming soon</span></div>
             </div>
           </article>
         </div>
+        <!-- Project details pop-up -->
+        <dialog class="pd" id="project-dialog" aria-labelledby="pd-title">
+          <button type="button" class="pd-close" aria-label="Close project details"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+          <div class="pd-content"></div>
+        </dialog>
+        <template id="pd-smartpay">
+            <p class="pd-kicker">Java Programming course project</p>
+            <h2 id="pd-title">SmartPay Payroll System</h2>
+            <p class="pd-lead">A full-stack payroll management system that streamlines employee records, attendance tracking, salary computation, deductions and payslip generation. Built with Java and Spring Boot as my Java Programming course project.</p>
+            <dl class="pd-facts"><div><dt>Type</dt><dd>Course project</dd></div><div><dt>Focus</dt><dd>Java backend, full-stack</dd></div><div><dt>Status</dt><dd>Live demo</dd></div></dl>
+            <h3 class="pd-h">What I built</h3>
+            <ul class="bullets pd-list"><li>Built RESTful APIs with Spring Boot using a layered architecture: Controller, Service, Repository and Entity.</li><li>Implemented an automated salary calculation engine supporting HRA, DA, bonuses, PF, tax deductions and net salary.</li><li>Designed a MySQL database for employee, attendance and payroll records, integrated through JDBC.</li><li>Added CRUD operations, input validation and exception handling for reliable behaviour.</li><li>Generated payslips from the computed salary data.</li><li>Managed dependencies and builds with Maven, and source control with Git.</li></ul>
+            <h3 class="pd-h">Tech stack</h3>
+            <ul class="chips"><li><img src="assets/icons/java.svg" alt="" width="16" height="16">Java 21</li><li><img src="assets/icons/spring-icon.svg" alt="" width="16" height="16">Spring Boot</li><li><img src="assets/icons/mysql-icon.svg" alt="" width="16" height="16">MySQL</li><li>Maven</li><li>REST API</li><li>JDBC</li><li><img src="assets/icons/git-icon.svg" alt="" width="16" height="16">Git</li></ul>
+            <div class="pd-actions"><a class="btn btn-primary btn-sm" href="https://smartpay-payroll-management-system.onrender.com/" target="_blank" rel="noopener">Live demo<span class="visually-hidden"> of SmartPay (opens in a new tab)</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a><span class="hint">Demo login admin / admin</span></div>
+          </template>
+          <template id="pd-water">
+            <p class="pd-kicker">Machine Learning course project</p>
+            <h2 id="pd-title">WaterQualityAI</h2>
+            <p class="pd-lead">An end-to-end remote-sensing platform that analyses water bodies and surrounding land cover at any user-defined location, using Sentinel-2 satellite imagery and Google Earth Engine. It started as my Machine Learning course project.</p>
+            <dl class="pd-facts"><div><dt>Type</dt><dd>Course project</dd></div><div><dt>Focus</dt><dd>AI/ML, remote sensing</dd></div><div><dt>Status</dt><dd>Live demo</dd></div></dl>
+            <h3 class="pd-h">What I built</h3>
+            <ul class="bullets pd-list"><li>Automated satellite-image selection based on cloud cover and coverage, with RGB preprocessing.</li><li>NDWI and MNDWI water detection, water-area estimation and water-mask generation.</li><li>Spectral analysis of bands B3, B4, B8 and B11.</li><li>A 10-class EuroSAT CNN in TensorFlow/Keras for land-cover classification with confidence scores.</li><li>A Streamlit dashboard for validated and custom locations using latitude, longitude and a configurable buffer distance, with persistent results.</li><li>Multi-location comparison and analytics for reproducible analysis across study areas.</li></ul>
+            <h3 class="pd-h">Tech stack</h3>
+            <ul class="chips"><li><img src="assets/icons/python.svg" alt="" width="16" height="16">Python</li><li><img src="assets/icons/tensorflow.svg" alt="" width="16" height="16">TensorFlow / Keras</li><li>Google Earth Engine</li><li>Sentinel-2</li><li><img src="assets/icons/streamlit.svg" alt="" width="16" height="16">Streamlit</li></ul>
+            <div class="pd-actions"><a class="btn btn-primary btn-sm" href="https://waterqualityai-6fpfbg9mgwyysrtrmabiro.streamlit.app/" target="_blank" rel="noopener">Live demo<span class="visually-hidden"> of WaterQualityAI (opens in a new tab)</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
+          </template>
+          <template id="pd-ideontra">
+            <p class="pd-kicker">CloseFuture internship</p>
+            <h2 id="pd-title">Ideontra</h2>
+            <p class="pd-lead">An internal ideas and innovation platform where employees submit ideas, collaborate through comments and voting, and track each idea from submission to completion. Built and deployed during my internship at CloseFuture.</p>
+            <dl class="pd-facts"><div><dt>Type</dt><dd>Internship project</dd></div><div><dt>Focus</dt><dd>Full-stack</dd></div><div><dt>Status</dt><dd>Deployed</dd></div></dl>
+            <h3 class="pd-h">What I built</h3>
+            <ul class="bullets pd-list"><li>Member and Admin permissions with JWT authentication, PostgreSQL Row Level Security and validated database functions.</li><li>Responsive board and list views with live updates.</li><li>Participation reports and configurable campaign deadlines.</li><li>AI chat with private conversation history.</li><li>Automated email reminders using Supabase Edge Functions, Cron and Resend.</li></ul>
+            <h3 class="pd-h">Tech stack</h3>
+            <ul class="chips"><li><img src="assets/icons/nextjs-icon.svg" alt="" width="16" height="16">Next.js</li><li><img src="assets/icons/typescript-icon.svg" alt="" width="16" height="16">TypeScript</li><li><img src="assets/icons/tailwindcss-icon.svg" alt="" width="16" height="16">Tailwind CSS</li><li>TanStack Query</li><li><img src="assets/icons/supabase-icon.svg" alt="" width="16" height="16">Supabase</li><li><img src="assets/icons/postgresql.svg" alt="" width="16" height="16">PostgreSQL</li></ul>
+            <div class="pd-actions"><a class="btn btn-primary btn-sm" href="https://ideontra.vercel.app/" target="_blank" rel="noopener">Visit site<span class="visually-hidden"> of Ideontra (opens in a new tab)</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a><span class="hint">Company sign-in required</span></div>
+          </template>
+          <template id="pd-chatbot">
+            <p class="pd-kicker">CloseFuture internship</p>
+            <h2 id="pd-title">CloseFuture AI website chatbot</h2>
+            <p class="pd-lead">An AI chatbot for the CloseFuture website that answers visitor questions from the site’s own pages with sources, and books meetings straight into the calendar. Built during my internship at CloseFuture.</p>
+            <dl class="pd-facts"><div><dt>Type</dt><dd>Internship project</dd></div><div><dt>Focus</dt><dd>AI agents, RAG</dd></div><div><dt>Status</dt><dd>Demo coming soon</dd></div></dl>
+            <h3 class="pd-h">What I built</h3>
+            <ul class="bullets pd-list"><li>A three-agent workflow in LangGraph: an Orchestrator for company questions, a Scheduler for meetings and an independent Guardrail for safety checks.</li><li>A citation-grounded RAG pipeline over 180+ website pages using 1,536-dimension Gemini embeddings.</li><li>Hybrid retrieval combining semantic search and BM25 with Reciprocal Rank Fusion.</li><li>Google Calendar through MCP: availability checks, owner approval, visitor invites, Google Meet links, rescheduling and cancellation.</li><li>Daily website sync, persistent conversation history, answer feedback and request limits.</li><li>A responsive chat interface built with Next.js and Tailwind CSS.</li></ul>
+            <h3 class="pd-h">Tech stack</h3>
+            <ul class="chips"><li><img src="assets/icons/python.svg" alt="" width="16" height="16">Python</li><li><img src="assets/icons/fastapi-icon.svg" alt="" width="16" height="16">FastAPI</li><li>LangGraph</li><li><img src="assets/icons/google-gemini-icon.svg" alt="" width="16" height="16">Gemini</li><li><img src="assets/icons/supabase-icon.svg" alt="" width="16" height="16">Supabase</li><li><img src="assets/icons/supabase-icon.svg" alt="" width="16" height="16">pgvector</li><li><img src="assets/icons/nextjs-icon.svg" alt="" width="16" height="16">Next.js</li><li><img src="assets/icons/tailwindcss-icon.svg" alt="" width="16" height="16">Tailwind CSS</li><li>MCP</li></ul>
+            <div class="pd-actions"><span class="pending">Live demo coming soon</span></div>
+          </template>
+
       </div>
     </section>
 
@@ -380,6 +430,6 @@
 
   <a class="to-top" href="#top" aria-label="Back to top"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5m0 0-6 6m6-6 6 6"/></svg></a>
 
-  <script src="script.js?v=18" defer></script>
+  <script src="script.js?v=19" defer></script>
 </body>
 </html>
