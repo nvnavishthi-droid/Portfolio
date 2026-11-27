@@ -193,11 +193,41 @@
     });
     dlg.querySelector(".pd-close").addEventListener("click", close);
     dlg.addEventListener("click", (e) => { if (e.target === dlg) close(); }); // click on the backdrop
-    document.querySelectorAll(".btn-details").forEach((b) => b.addEventListener("click", (e) => {
+    document.querySelectorAll(".btn-details").forEach((b) => b.addEventListener("click", async (e) => {
       e.stopPropagation();
       if (triggerAnimation) return;
       if (reduced || typeof b.animate !== "function") { open(b.dataset.project); return; }
       const card = b.closest(".project");
+      const origin = card.getBoundingClientRect(), button = b.getBoundingClientRect();
+      const diameter = Math.hypot(card.clientWidth, card.clientHeight) * 2;
+      const ripple = document.createElement("span");
+      ripple.className = "project-ripple";
+      ripple.setAttribute("aria-hidden", "true");
+      ripple.style.width = ripple.style.height = `${diameter}px`;
+      ripple.style.left = `${(button.left + button.width / 2 - origin.left) * card.offsetWidth / origin.width - diameter / 2}px`;
+      ripple.style.top = `${(button.top + button.height / 2 - origin.top) * card.offsetHeight / origin.height - diameter / 2}px`;
+      card.append(ripple);
+      b.classList.add("is-opening");
+      card.classList.add("is-opening");
+      const rippleAnimation = triggerAnimation = ripple.animate([
+        { transform: "scale(.02)", opacity: .24 },
+        { opacity: .16, offset: .65 },
+        { transform: "scale(1)", opacity: 0 }
+      ], { duration: 360, easing: "cubic-bezier(0.2, 0.6, 0.35, 1)" });
+      const cancelRipple = () => rippleAnimation.cancel();
+      const escapeRipple = (event) => { if (event.key === "Escape") cancelRipple(); };
+      window.addEventListener("resize", cancelRipple, { once: true });
+      window.addEventListener("keydown", escapeRipple);
+      try { await rippleAnimation.finished; }
+      catch { return; }
+      finally {
+        window.removeEventListener("resize", cancelRipple);
+        window.removeEventListener("keydown", escapeRipple);
+        ripple.remove();
+        b.classList.remove("is-opening");
+        card.classList.remove("is-opening");
+        if (triggerAnimation === rippleAnimation) triggerAnimation = null;
+      }
       const bounds = card.getBoundingClientRect();
       const stage = document.createElement("dialog");
       stage.className = "pf-stage";
