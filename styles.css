@@ -606,3 +606,7 @@ html.pd-open { overflow: hidden; }
 }
 @keyframes pd-up { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .pd[open], .pd::backdrop { animation: none; } }
+
+/* Pop-up info boxes take part in the 3D / glow / spotlight effect */
+.pd-facts, .pd-facts div { position: relative; isolation: isolate; }
+.pd-facts { perspective: 900px; }

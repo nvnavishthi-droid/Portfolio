@@ -136,11 +136,44 @@
   const dlg = document.getElementById("project-dialog");
   if (dlg && typeof dlg.showModal === "function") {
     const content = dlg.querySelector(".pd-content");
+    // same 3D tilt, glow border and spotlight as every other box (mouse and touch)
+    const boxFx = (card) => {
+      card.classList.add("gb", "spot");
+      if (reduced) return;
+      card.classList.add("tilt");
+      const MAXD = fine ? 7 : 8;
+      let raf = 0, endTimer = 0;
+      const apply = (cx, cy) => {
+        const r = card.getBoundingClientRect();
+        const px = Math.min(1, Math.max(0, (cx - r.left) / r.width)) - 0.5;
+        const py = Math.min(1, Math.max(0, (cy - r.top) / r.height)) - 0.5;
+        card.style.setProperty("--mx", `${cx - r.left}px`);
+        card.style.setProperty("--my", `${cy - r.top}px`);
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+          card.classList.add(fine ? "is-tilting" : "is-touching"); card.classList.remove("is-resting");
+          card.style.transform = `perspective(900px) rotateX(${(-py * MAXD).toFixed(2)}deg) rotateY(${(px * MAXD).toFixed(2)}deg) translateY(-4px)`;
+        });
+      };
+      const reset = () => { cancelAnimationFrame(raf); card.classList.remove("is-tilting", "is-touching"); card.classList.add("is-resting"); card.style.transform = ""; };
+      if (fine) {
+        card.addEventListener("pointermove", (e) => apply(e.clientX, e.clientY));
+        card.addEventListener("pointerleave", reset);
+      } else {
+        card.addEventListener("touchstart", (e) => { clearTimeout(endTimer); apply(e.touches[0].clientX, e.touches[0].clientY); }, { passive: true });
+        card.addEventListener("touchmove", (e) => apply(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+        const rel = () => { clearTimeout(endTimer); endTimer = setTimeout(reset, 220); };
+        card.addEventListener("touchend", rel, { passive: true });
+        card.addEventListener("touchcancel", rel, { passive: true });
+      }
+    };
     let pushed = false;
     const open = (id, push = true) => {
       const tpl = document.getElementById("pd-" + id);
       if (!tpl) return;
       content.replaceChildren(tpl.content.cloneNode(true));
+      const small = matchMedia("(max-width: 640px)").matches;
+      content.querySelectorAll(small ? ".pd-facts" : ".pd-facts div").forEach(boxFx);
       if (!dlg.open) dlg.showModal();
       dlg.scrollTop = 0; content.scrollTop = 0;
       root.classList.add("pd-open");
