@@ -168,7 +168,9 @@
       }
     };
     let pushed = false;
+    let triggerAnimation = null;
     const open = (id, push = true) => {
+      if (triggerAnimation) { triggerAnimation.cancel(); triggerAnimation = null; }
       const tpl = document.getElementById("pd-" + id);
       if (!tpl) return;
       content.replaceChildren(tpl.content.cloneNode(true));
@@ -190,13 +192,33 @@
     });
     dlg.querySelector(".pd-close").addEventListener("click", close);
     dlg.addEventListener("click", (e) => { if (e.target === dlg) close(); }); // click on the backdrop
-    document.querySelectorAll(".btn-details").forEach((b) => b.addEventListener("click", (e) => { e.stopPropagation(); open(b.dataset.project); }));
+    document.querySelectorAll(".btn-details").forEach((b) => b.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (triggerAnimation) return;
+      if (reduced || typeof b.animate !== "function") { open(b.dataset.project); return; }
+      const timing = { duration: 180, easing: "cubic-bezier(0.16, 1, 0.3, 1)" };
+      triggerAnimation = b.animate([
+        { transform: "scale(1)" },
+        { transform: "scale(.94)", offset: .4 },
+        { transform: "scale(1)" }
+      ], timing);
+      b.querySelector("svg").animate([
+        { transform: "translateX(0)" },
+        { transform: "translateX(6px)", offset: .5 },
+        { transform: "translateX(0)" }
+      ], timing);
+      triggerAnimation.finished.then(() => {
+        triggerAnimation = null;
+        open(b.dataset.project);
+      }, () => { triggerAnimation = null; });
+    }));
     // clicking anywhere on a card (except its links and buttons) also opens it
     document.querySelectorAll(".project").forEach((card) => {
       card.classList.add("is-clickable");
       card.addEventListener("click", (e) => { if (e.target.closest("a, button")) return; open(card.id); });
     });
     window.addEventListener("popstate", () => {
+      if (triggerAnimation) { triggerAnimation.cancel(); triggerAnimation = null; }
       const m = location.hash.match(/^#project-(\w+)/);
       if (m) open(m[1], false); else if (dlg.open) { pushed = false; dlg.close(); }
     });
