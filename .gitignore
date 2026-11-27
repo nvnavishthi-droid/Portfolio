@@ -1,6 +1,7 @@
 # Only the files the website needs are tracked; everything else stays local.
 /*
 !/.gitignore
+!/README.md
 !/index.html
 !/styles.css
 !/script.js
