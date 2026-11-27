@@ -654,17 +654,11 @@ html.dark .hero-copy { --hero-glow: rgba(255, 255, 255, .055); }
   .hero-copy::before { display: none; }
 }
 
-/* Case-study workflows and concrete outcomes. */
-.pd-flow { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 12px; }
-.pd-flow li { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 9px; min-width: 0; color: var(--muted); font-size: .875rem; font-weight: 600; line-height: 1.5; }
-.pd-flow li::after { content: ""; position: absolute; left: 36px; right: -8px; top: 14px; height: 1px; background: var(--line-2); pointer-events: none; }
-.pd-flow li::before { content: ""; position: absolute; right: -8px; top: 11px; width: 6px; height: 6px; border-top: 1px solid var(--line-2); border-right: 1px solid var(--line-2); transform: rotate(45deg); pointer-events: none; }
-.pd-flow li:last-child::before, .pd-flow li:last-child::after { display: none; }
-.pd-step { flex: none; display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid var(--em-200); border-radius: 50%; background: var(--em-50); color: var(--em); font-size: .75rem; font-weight: 800; font-variant-numeric: tabular-nums; }
-@media (max-width: 640px) {
-  .pd-flow { grid-template-columns: 1fr; gap: 0; }
-  .pd-flow li { flex-direction: row; align-items: center; gap: 12px; padding-bottom: 16px; }
-  .pd-flow li:last-child { padding-bottom: 0; }
-  .pd-flow li::before { display: none; }
-  .pd-flow li::after { left: 13px; right: auto; top: 30px; bottom: 2px; width: 1px; height: auto; }
-}
+/* Case-study workflows: the same connected-dot pattern as education. */
+.pd-flow { display: grid; grid-template-columns: 1fr; gap: 18px; margin-top: 12px; }
+.pd-flow li { position: relative; display: grid; grid-template-columns: 26px minmax(0, 1fr); align-items: start; gap: 44px; min-width: 0; color: var(--muted); font-size: .875rem; font-weight: 600; line-height: 1.5; }
+.pd-flow li::before { content: ""; position: absolute; left: 36px; top: 3px; width: 14px; height: 14px; border: 2px solid var(--em); border-radius: 50%; background: var(--card); box-shadow: 0 0 0 4px var(--card); z-index: 1; pointer-events: none; }
+.pd-flow li:first-child::before { background: var(--em); box-shadow: 0 0 0 4px var(--card), 0 0 0 7px var(--em-100); }
+.pd-flow li::after { content: ""; position: absolute; left: 50px; top: 9px; width: 12px; height: 2px; border-radius: 2px; background: var(--em-200); pointer-events: none; }
+.pd-step { flex: none; padding-top: 1px; color: var(--em); font-size: .75rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.pd-flow li:not(:last-child) .pd-step::after { content: ""; position: absolute; left: 42px; top: 10px; width: 2px; height: calc(100% + 18px); border-radius: 2px; background: linear-gradient(180deg, var(--em), var(--em-bright)); pointer-events: none; }
