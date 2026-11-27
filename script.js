@@ -193,7 +193,7 @@
     });
     dlg.querySelector(".pd-close").addEventListener("click", close);
     dlg.addEventListener("click", (e) => { if (e.target === dlg) close(); }); // click on the backdrop
-    document.querySelectorAll(".btn-details").forEach((b) => b.addEventListener("click", (e) => {
+    document.querySelectorAll(".btn-details").forEach((b) => b.addEventListener("click", async (e) => {
       e.stopPropagation();
       if (triggerAnimation) return;
       if (reduced || typeof b.animate !== "function") { open(b.dataset.project); return; }
@@ -211,6 +211,24 @@
       card.append(ripple);
       b.classList.add("is-opening");
       card.classList.add("is-opening");
+      const rippleAnimation = triggerAnimation = ripple.animate([
+        { transform: "scale(.02)", opacity: .24 },
+        { opacity: .16, offset: .65 },
+        { transform: "scale(1)", opacity: 0 }
+      ], { duration: 460, easing: "cubic-bezier(0.2, 0.6, 0.35, 1)" });
+      const cancelRipple = () => rippleAnimation.cancel();
+      const escapeRipple = (event) => { if (event.key === "Escape") cancelRipple(); };
+      window.addEventListener("resize", cancelRipple, { once: true });
+      window.addEventListener("keydown", escapeRipple);
+      try { await rippleAnimation.finished; }
+      catch { return; }
+      finally {
+        window.removeEventListener("resize", cancelRipple);
+        window.removeEventListener("keydown", escapeRipple);
+        ripple.remove();
+        b.classList.remove("is-opening"); card.classList.remove("is-opening");
+        if (triggerAnimation === rippleAnimation) triggerAnimation = null;
+      }
       const stage = document.createElement("dialog");
       stage.className = "pf-stage";
       stage.setAttribute("aria-label", "Opening project details");
@@ -272,7 +290,6 @@
       const ease = "cubic-bezier(0.22, 0.8, 0.25, 1)";
       const small = `scale(${size / target.width}, ${size / target.height})`;
       const animations = [
-        ripple.animate([{ transform: "scale(.02)", opacity: .24 }, { transform: "scale(1)", opacity: 0 }], { duration: 220, easing: ease }),
         net.animate([
           { transform: "perspective(1000px) translate3d(-24px, 18px, 0) rotateX(-28deg) rotateY(-38deg) rotateZ(-12deg) scale(.8)" },
           { transform: "perspective(1000px) translate3d(12px, -10px, 0) rotateX(-300deg) rotateY(300deg) rotateZ(14deg) scale(1.08)", offset: .65 },
