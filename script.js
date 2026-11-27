@@ -184,6 +184,7 @@
     };
     const close = () => { if (dlg.open) dlg.close(); };
     dlg.addEventListener("close", () => {
+      dlg.classList.remove("pd-from-flip");
       root.classList.remove("pd-open");
       if (location.hash.startsWith("#project-")) {
         if (pushed) { pushed = false; history.back(); }
@@ -197,37 +198,65 @@
       if (triggerAnimation) return;
       if (reduced || typeof b.animate !== "function") { open(b.dataset.project); return; }
       const card = b.closest(".project");
-      const bounds = card.getBoundingClientRect(), button = b.getBoundingClientRect();
-      const diameter = Math.hypot(card.clientWidth, card.clientHeight) * 2;
-      const ripple = document.createElement("span");
-      ripple.className = "project-ripple";
-      ripple.setAttribute("aria-hidden", "true");
-      ripple.style.width = ripple.style.height = `${diameter}px`;
-      ripple.style.left = `${(button.left + button.width / 2 - bounds.left) * card.offsetWidth / bounds.width - diameter / 2}px`;
-      ripple.style.top = `${(button.top + button.height / 2 - bounds.top) * card.offsetHeight / bounds.height - diameter / 2}px`;
-      card.append(ripple);
-      b.classList.add("is-opening");
-      card.classList.add("is-opening");
-      const timing = { duration: 460, easing: "cubic-bezier(0.2, 0.6, 0.35, 1)" };
-      const animation = triggerAnimation = ripple.animate([
-        { transform: "scale(.02)", opacity: .24 },
-        { opacity: .16, offset: .65 },
-        { transform: "scale(1)", opacity: 0 }
-      ], timing);
-      const arrow = b.querySelector("svg").animate([
-        { transform: "translateX(0)" },
-        { transform: "translateX(8px)", offset: .5 },
-        { transform: "translateX(0)" }
-      ], timing);
+      const bounds = card.getBoundingClientRect();
+      const stage = document.createElement("dialog");
+      stage.className = "pf-stage";
+      stage.setAttribute("aria-label", "Opening project details");
+      stage.tabIndex = -1;
+      const scene = document.createElement("div");
+      scene.className = "pf-scene";
+      scene.setAttribute("aria-hidden", "true");
+      scene.inert = true;
+      const front = card.cloneNode(true);
+      front.className = "project pf-front";
+      front.removeAttribute("style");
+      front.removeAttribute("id");
+      front.querySelectorAll("[id]").forEach((el) => el.removeAttribute("id"));
+      const back = document.createElement("div");
+      back.className = "pd pf-measure";
+      const closeIcon = dlg.querySelector(".pd-close").cloneNode(true);
+      const details = document.createElement("div");
+      details.className = "pd-content";
+      details.append(document.getElementById("pd-" + b.dataset.project).content.cloneNode(true));
+      back.append(closeIcon, details);
+      back.querySelectorAll("[id]").forEach((el) => el.removeAttribute("id"));
+      back.inert = true;
+      back.setAttribute("aria-hidden", "true");
+      document.body.append(back);
+      const target = back.getBoundingClientRect();
+      const left = (innerWidth - target.width) / 2, top = (innerHeight - target.height) / 2;
+      back.className = "pd pf-back";
+      Object.assign(scene.style, { left: `${left}px`, top: `${top}px`, width: `${target.width}px`, height: `${target.height}px` });
+      Object.assign(front.style, {
+        width: `${card.offsetWidth}px`, height: `${card.offsetHeight}px`,
+        transform: `scale(${target.width / card.offsetWidth}, ${target.height / card.offsetHeight})`
+      });
+      scene.append(front, back);
+      stage.append(scene);
+      document.body.append(stage);
+      root.classList.add("pd-open");
+      stage.showModal();
+      const dx = bounds.left + bounds.width / 2 - (left + target.width / 2);
+      const dy = bounds.top + bounds.height / 2 - (top + target.height / 2);
+      const animation = triggerAnimation = scene.animate([
+        { transform: `perspective(1600px) translate3d(${dx}px, ${dy}px, 0) rotateY(0deg) scale(${bounds.width / target.width}, ${bounds.height / target.height})` },
+        { transform: "perspective(1600px) translate3d(0, 0, 0) rotateY(180deg) scale(1, 1)" }
+      ], { duration: 620, easing: "cubic-bezier(0.2, 0.65, 0.3, 1)", fill: "forwards" });
+      const cancel = () => animation.cancel();
+      stage.addEventListener("cancel", (event) => { event.preventDefault(); cancel(); });
+      window.addEventListener("resize", cancel, { once: true });
       const cleanup = () => {
-        ripple.remove();
-        b.classList.remove("is-opening");
-        card.classList.remove("is-opening");
-        arrow.cancel();
+        window.removeEventListener("resize", cancel);
+        stage.close();
+        stage.remove();
+        animation.cancel();
         if (triggerAnimation === animation) triggerAnimation = null;
+        if (!dlg.open) root.classList.remove("pd-open");
+        b.focus({ preventScroll: true });
       };
       animation.finished.then(() => {
         cleanup();
+        dlg.classList.add("pd-from-flip");
         open(b.dataset.project);
       }, cleanup);
     }));

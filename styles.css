@@ -569,9 +569,6 @@ h3 { font-size: 1.25rem; font-weight: 800; }
 .btn-details:hover { border-color: var(--em); background: var(--em-50); }
 .btn-details:hover svg { transform: translateX(3px); }
 .btn-details:focus-visible { outline: 3px solid var(--em-bright); outline-offset: 2px; }
-.btn-details.is-opening { background: var(--em); color: var(--card); border-color: var(--em); }
-.project.is-opening::after { opacity: 1; }
-.project-ripple { position: absolute; z-index: 2; border-radius: 50%; background: var(--em); pointer-events: none; opacity: 0; }
 html.pd-open { overflow: hidden; }
 
 .pd { width: min(860px, calc(100vw - 40px)); max-height: min(88vh, 920px); padding: 0; border: 1px solid var(--line); border-radius: 24px; background: var(--card); color: var(--ink); box-shadow: 0 30px 80px -20px rgba(15, 26, 21, .35); overflow: hidden; }
@@ -613,3 +610,13 @@ html.pd-open { overflow: hidden; }
 /* Pop-up info boxes take part in the 3D / glow / spotlight effect */
 .pd-facts, .pd-facts div { position: relative; isolation: isolate; }
 .pd-facts { perspective: 900px; }
+
+/* A project card flips over and expands into its details window. */
+.pf-stage { position: fixed; inset: 0; width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; overflow: hidden; background: transparent; color: var(--ink); }
+.pf-stage::backdrop { background: rgba(10, 20, 16, .55); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+.pf-scene { position: absolute; transform-style: preserve-3d; will-change: transform; }
+.pf-front, .pf-back { position: absolute; left: 0; top: 0; margin: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; pointer-events: none; }
+.pf-front { transform-origin: top left; }
+.pf-measure { position: fixed; display: flex; flex-direction: column; visibility: hidden; pointer-events: none; }
+.pd.pf-back { display: flex; flex-direction: column; width: 100%; height: 100%; max-width: none; max-height: none; transform: rotateY(180deg); }
+.pd.pd-from-flip[open], .pd.pd-from-flip::backdrop { animation: none; }
