@@ -188,6 +188,30 @@
         card.addEventListener("touchcancel", rel, { passive: true });
       }
     };
+    // Run the workflow indicator once when the workflow enters the scrollable pop-up.
+    let flowObserver = null, flowResize = null;
+    const watchWorkflow = () => {
+      if (flowObserver) flowObserver.disconnect();
+      if (flowResize) flowResize.disconnect();
+      flowObserver = null; flowResize = null;
+      const flow = content.querySelector(".pd-flow");
+      if (!flow || reduced) return;
+      const measure = () => flow.style.setProperty("--flow-distance", `${flow.clientWidth * .75}px`);
+      measure();
+      if ("ResizeObserver" in window) {
+        flowResize = new ResizeObserver(measure);
+        flowResize.observe(flow);
+      }
+      if (!("IntersectionObserver" in window)) { flow.classList.add("is-flowing"); return; }
+      const observer = new IntersectionObserver((entries) => {
+        if (!dlg.open || !flow.isConnected || !entries.some((entry) => entry.isIntersecting && entry.intersectionRatio >= .6)) return;
+        flow.classList.add("is-flowing");
+        observer.disconnect();
+      }, { root: content, threshold: .6 });
+      flowObserver = observer;
+      observer.observe(flow);
+    };
+
     let pushed = false;
     let triggerAnimation = null;
     const open = (id, push = true) => {
@@ -200,11 +224,14 @@
       if (!dlg.open) dlg.showModal();
       dlg.scrollTop = 0; content.scrollTop = 0;
       root.classList.add("pd-open");
+      watchWorkflow();
       if (push) { history.pushState({ pd: id }, "", "#project-" + id); pushed = true; }
       else pushed = false;
     };
     const close = () => { if (dlg.open) dlg.close(); };
     dlg.addEventListener("close", () => {
+      if (flowObserver) flowObserver.disconnect();
+      if (flowResize) flowResize.disconnect();
       dlg.classList.remove("pd-from-flip");
       root.classList.remove("pd-open");
       if (location.hash.startsWith("#project-")) {
