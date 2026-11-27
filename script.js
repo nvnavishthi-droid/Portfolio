@@ -255,26 +255,35 @@
       document.body.append(back);
       const target = back.getBoundingClientRect();
       const left = (innerWidth - target.width) / 2, top = (innerHeight - target.height) / 2;
-      back.className = "pd pf-fold-content";
-      back.style.height = `${target.height}px`;
-      const origami = document.createElement("div");
-      origami.className = "pf-back pf-origami";
-      const upper = document.createElement("div"), lower = document.createElement("div");
-      upper.className = "pf-half pf-half-top";
-      lower.className = "pf-half pf-half-bottom";
-      upper.append(back);
-      const lowerContent = back.cloneNode(true);
-      lowerContent.style.top = `${-target.height / 2}px`;
-      lower.append(lowerContent);
-      const crease = document.createElement("span");
-      crease.className = "pf-crease";
-      origami.append(upper, lower, crease);
+      back.className = "pd pf-cube-top";
+      const cube = document.createElement("div");
+      cube.className = "pf-back pf-cube";
+      const expansion = document.createElement("div"), rotor = document.createElement("div");
+      expansion.className = "pf-cube-expansion";
+      rotor.className = "pf-cube-rotor";
+      const depth = target.height / 2;
+      const buttonScale = `scale(${b.offsetWidth / target.width}, ${b.offsetHeight / target.height})`;
+      expansion.style.transform = buttonScale;
+      rotor.style.transform = `translateZ(${-depth}px) rotateX(0deg)`;
+      const buttonFace = document.createElement("div");
+      buttonFace.className = "pf-cube-front";
+      buttonFace.style.transform = `translateZ(${depth}px)`;
+      const buttonClone = b.cloneNode(true);
+      Object.assign(buttonClone.style, {
+        width: `${b.offsetWidth}px`, height: `${b.offsetHeight}px`,
+        transform: `scale(${target.width / b.offsetWidth}, ${target.height / b.offsetHeight})`
+      });
+      buttonFace.append(buttonClone);
+      back.style.transform = `rotateX(90deg) translateZ(${depth}px)`;
+      rotor.append(buttonFace, back);
+      expansion.append(rotor);
+      cube.append(expansion);
       Object.assign(scene.style, { left: `${left}px`, top: `${top}px`, width: `${target.width}px`, height: `${target.height}px` });
       Object.assign(front.style, {
         width: `${card.offsetWidth}px`, height: `${card.offsetHeight}px`,
         transform: `scale(${target.width / card.offsetWidth}, ${target.height / card.offsetHeight})`
       });
-      scene.append(front, origami);
+      scene.append(front, cube);
       stage.append(scene);
       document.body.append(stage);
       root.classList.add("pd-open");
@@ -285,28 +294,30 @@
         { transform: `perspective(1600px) translate3d(${dx}px, ${dy}px, 0) rotateY(0deg) scale(${bounds.width / target.width}, ${bounds.height / target.height})` },
         { transform: "perspective(1600px) translate3d(0, 0, 0) rotateY(180deg) scale(1, 1)" }
       ], { duration: 620, easing: "cubic-bezier(0.2, 0.65, 0.3, 1)", fill: "forwards" });
-      let unfolding = [];
-      const cancel = () => { animation.cancel(); unfolding.forEach((part) => part.cancel()); };
+      let rolling = [];
+      const cancel = () => { animation.cancel(); rolling.forEach((part) => part.cancel()); };
       stage.addEventListener("cancel", (event) => { event.preventDefault(); cancel(); });
       window.addEventListener("resize", cancel, { once: true });
       const cleanup = () => {
         window.removeEventListener("resize", cancel);
         stage.close();
         stage.remove();
-        if (triggerAnimation === animation || unfolding.includes(triggerAnimation)) triggerAnimation = null;
+        if (triggerAnimation === animation || rolling.includes(triggerAnimation)) triggerAnimation = null;
         cancel();
         if (!dlg.open) root.classList.remove("pd-open");
         b.focus({ preventScroll: true });
       };
       animation.finished.then(async () => {
-        const foldTiming = { duration: 420, delay: 80, easing: "cubic-bezier(0.22, 0.8, 0.25, 1)", fill: "forwards" };
-        unfolding = [
-          upper.animate([{ transform: "rotateX(90deg)" }, { transform: "rotateX(0deg)" }], foldTiming),
-          lower.animate([{ transform: "rotateX(-90deg)" }, { transform: "rotateX(0deg)" }], foldTiming),
-          crease.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 160, delay: 80, fill: "forwards" })
+        const rollTiming = { duration: 520, easing: "cubic-bezier(0.22, 0.8, 0.25, 1)", fill: "forwards" };
+        rolling = [
+          expansion.animate([{ transform: buttonScale }, { transform: "scale(1, 1)" }], rollTiming),
+          rotor.animate([
+            { transform: `translateZ(${-depth}px) rotateX(0deg)` },
+            { transform: `translateZ(${-depth}px) rotateX(-90deg)` }
+          ], rollTiming)
         ];
-        triggerAnimation = unfolding[0];
-        await Promise.all(unfolding.map((part) => part.finished));
+        triggerAnimation = rolling[0];
+        await Promise.all(rolling.map((part) => part.finished));
         cleanup();
         dlg.classList.add("pd-from-flip");
         open(b.dataset.project);
