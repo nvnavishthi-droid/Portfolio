@@ -196,21 +196,40 @@
       e.stopPropagation();
       if (triggerAnimation) return;
       if (reduced || typeof b.animate !== "function") { open(b.dataset.project); return; }
-      const timing = { duration: 180, easing: "cubic-bezier(0.16, 1, 0.3, 1)" };
-      triggerAnimation = b.animate([
-        { transform: "scale(1)" },
-        { transform: "scale(.94)", offset: .4 },
-        { transform: "scale(1)" }
+      const card = b.closest(".project");
+      const bounds = card.getBoundingClientRect(), button = b.getBoundingClientRect();
+      const diameter = Math.hypot(card.clientWidth, card.clientHeight) * 2;
+      const ripple = document.createElement("span");
+      ripple.className = "project-ripple";
+      ripple.setAttribute("aria-hidden", "true");
+      ripple.style.width = ripple.style.height = `${diameter}px`;
+      ripple.style.left = `${(button.left + button.width / 2 - bounds.left) * card.offsetWidth / bounds.width - diameter / 2}px`;
+      ripple.style.top = `${(button.top + button.height / 2 - bounds.top) * card.offsetHeight / bounds.height - diameter / 2}px`;
+      card.append(ripple);
+      b.classList.add("is-opening");
+      card.classList.add("is-opening");
+      const timing = { duration: 460, easing: "cubic-bezier(0.2, 0.6, 0.35, 1)" };
+      const animation = triggerAnimation = ripple.animate([
+        { transform: "scale(.02)", opacity: .24 },
+        { opacity: .16, offset: .65 },
+        { transform: "scale(1)", opacity: 0 }
       ], timing);
-      b.querySelector("svg").animate([
+      const arrow = b.querySelector("svg").animate([
         { transform: "translateX(0)" },
-        { transform: "translateX(6px)", offset: .5 },
+        { transform: "translateX(8px)", offset: .5 },
         { transform: "translateX(0)" }
       ], timing);
-      triggerAnimation.finished.then(() => {
-        triggerAnimation = null;
+      const cleanup = () => {
+        ripple.remove();
+        b.classList.remove("is-opening");
+        card.classList.remove("is-opening");
+        arrow.cancel();
+        if (triggerAnimation === animation) triggerAnimation = null;
+      };
+      animation.finished.then(() => {
+        cleanup();
         open(b.dataset.project);
-      }, () => { triggerAnimation = null; });
+      }, cleanup);
     }));
     // clicking anywhere on a card (except its links and buttons) also opens it
     document.querySelectorAll(".project").forEach((card) => {
