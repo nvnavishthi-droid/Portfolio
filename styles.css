@@ -631,3 +631,25 @@ html.pd-open { overflow: hidden; }
 .pc-left > .pc-face, .pc-right > .pc-face { background: var(--alt); }
 .pd.pc-modal { position: absolute; display: flex; flex-direction: column; max-width: none; max-height: none; margin: 0; pointer-events: none; }
 .pd.pd-from-flip[open], .pd.pd-from-flip::backdrop { animation: none; }
+
+/* ---------- Optional hero effects: cursor light, masked text, dark texture ---------- */
+.hero-copy { position: relative; isolation: isolate; --hero-glow: rgba(16, 185, 129, .12); }
+.hero-copy::before { content: ""; position: absolute; inset: -24px 0; z-index: -1; pointer-events: none; background: radial-gradient(320px circle at var(--x, 50%) var(--y, 50%), var(--hero-glow), transparent 75%); opacity: 0; transition: opacity .35s var(--ease); }
+.hero-mask { display: inline-block; overflow: clip; vertical-align: top; }
+#hero-title > .hero-mask { display: block; }
+.hero-reveal-line { display: block; }
+.hero-reveal .hero-reveal-line { animation: hero-line-in .6s var(--ease) both; }
+.hero-reveal .tagline .hero-mask:nth-of-type(1) .hero-reveal-line { animation-delay: .08s; }
+.hero-reveal .tagline .hero-mask:nth-of-type(2) .hero-reveal-line { animation-delay: .16s; }
+.is-entering .hero-copy > h1, .is-entering .hero-copy > .tagline { animation: none; }
+@keyframes hero-line-in { from { transform: translateY(110%); } to { transform: translateY(0); } }
+.hero-noise { display: none; position: absolute; inset: 0; pointer-events: none; opacity: .025; background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22160%22%20height%3D%22160%22%3E%3Cfilter%20id%3D%22grain%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%22.75%22%20numOctaves%3D%223%22%20seed%3D%227%22%20stitchTiles%3D%22stitch%22%2F%3E%3CfeColorMatrix%20type%3D%22saturate%22%20values%3D%220%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20filter%3D%22url%28%23grain%29%22%2F%3E%3C%2Fsvg%3E"); background-size: 160px 160px; }
+html.dark .hero-noise { display: block; }
+html.dark .hero-copy { --hero-glow: rgba(255, 255, 255, .055); }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .hero-copy.is-spotlit::before { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-reveal .hero-reveal-line { animation: none; }
+  .hero-copy::before { display: none; }
+}

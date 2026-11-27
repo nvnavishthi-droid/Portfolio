@@ -10,7 +10,7 @@
     ".job", ".project", ".skill-card", ".cp-card", ".cert", ".cert-head", ".edu li", ".stack-band",
     ".cta-copy > *", ".cta-actions > *"
   ].join(",");
-  const items = [...document.querySelectorAll(targets)];
+  const items = [...document.querySelectorAll(targets)].filter((el) => !el.matches(".hero-copy > h1, .hero-copy > .tagline"));
   items.forEach((el) => {
     el.classList.add("reveal");
     const sibs = [...el.parentElement.children].filter((c) => c.matches(targets));
@@ -29,6 +29,27 @@
     }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
     items.forEach((el) => ro.observe(el));
     lines.forEach((el) => ro.observe(el));
+  }
+
+  // ---------- Optional hero cursor light (behind text, never over the portrait) ----------
+  const heroCopy = document.querySelector(".hero-copy");
+  if (heroCopy && fine && !reduced) {
+    let heroFrame = 0, cursorX = 0, cursorY = 0;
+    heroCopy.addEventListener("pointermove", (event) => {
+      cursorX = event.clientX; cursorY = event.clientY;
+      if (heroFrame) return;
+      heroFrame = requestAnimationFrame(() => {
+        heroFrame = 0;
+        const rect = heroCopy.getBoundingClientRect();
+        heroCopy.style.setProperty("--x", `${cursorX - rect.left}px`);
+        heroCopy.style.setProperty("--y", `${cursorY - rect.top + 24}px`);
+        heroCopy.classList.add("is-spotlit");
+      });
+    });
+    heroCopy.addEventListener("pointerleave", () => {
+      cancelAnimationFrame(heroFrame); heroFrame = 0;
+      heroCopy.classList.remove("is-spotlit");
+    });
   }
 
   // ---------- Count-up for the hero figures ----------
